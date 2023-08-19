@@ -63,7 +63,7 @@ Sin restricciones adicionales : no puede aplicar términos legales o medidas tec
 
 ## Complementos
 
-* [Tablero en Trello] - 
+* [Tablero en Trello] - https://trello.com/invite/b/FFTFJgoK/ATTI888efee309823f0ab1f8fca8783b56f912A41BC0/desarrollo-proyecto
 * [Manual de usuario] - 
 * [Manual Técnico] - 
 * [Mockups] - 
