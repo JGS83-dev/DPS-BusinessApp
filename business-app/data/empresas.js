@@ -3,7 +3,10 @@ export const empresas = [
         id: 1,
         nombre: 'Pupuseria la Esquina',
         descripcion: 'Pupuseria la Esquina',
-        imagen: '',
+        imagen: {
+            logo: '',
+            otras: ['', ''],
+        },
         Ubicacion: '',
         Sucursales: ['', ''],
         Horario: ['', '', ''],
@@ -18,7 +21,10 @@ export const empresas = [
         id: 2,
         nombre: 'Llanteria el paso',
         descripcion: 'Llanteria el paso',
-        imagen: '',
+        imagen: {
+            logo: '',
+            otras: ['', ''],
+        },
         Ubicacion: '',
         Sucursales: ['', ''],
         Horario: ['', '', ''],
