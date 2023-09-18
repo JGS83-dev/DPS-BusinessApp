@@ -11,7 +11,8 @@ export const empresas = [
         fechaFundacion: '',
         fechaRegistro: '',
         codigo: '',
-        estado: ''
+        estado: '',
+        categoria:1
     },
     {
         id: 2,
@@ -25,6 +26,7 @@ export const empresas = [
         fechaFundacion: '',
         fechaRegistro: '',
         codigo: '',
-        estado: ''
+        estado: '',
+        categoria:2
     }
 ]
