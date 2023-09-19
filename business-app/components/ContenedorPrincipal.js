@@ -10,7 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHouse, faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const screenHeight = Dimensions.get('window').height;
-const iconSize = 0.08 * screenHeight;
+const iconSize = 0.09 * screenHeight;
+const headerHeight = 0.08 * screenHeight;
+const headerPadding = 0.02 * screenHeight;
+const footerHeight = 0.07 * screenHeight;
+const footerPadding = 0.05 * screenHeight;
 // const screenWidth = Dimensions.get('window').width;
 // console.log(screenWidth);
 // console.log(screenHeight);
@@ -42,10 +46,10 @@ export function ContenedorPrincipal(props) {
 const styles = StyleSheet.create({
     Cabecera: {
         backgroundColor: colores.fondoBarras,
-        height: 65,
+        height: headerHeight,
         alignItems: 'center',
         alignContent: 'center',
-        padding: 15
+        padding: headerPadding
     },
     letra: {
         fontSize: 20,
@@ -54,22 +58,19 @@ const styles = StyleSheet.create({
     },
     footer: {
         backgroundColor: colores.fondoBarras,
-        height: 65,
+        height: footerHeight,
         alignItems: 'center',
         alignContent: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 15,
+        padding: footerPadding,
         color: colores.letra
     },
     container: {
-        fontSize: 20,
-        fontWeight: 'bold',
         flex: 1,
-        backgroundColor: '#ecf0f1',
+        backgroundColor: colores.fondo,
     },
     content: {
-        backgroundColor: colores.fondo,
         flex: 1
     },
 });
