@@ -132,3 +132,4 @@ dist
 # Reglas para secretos de firebase
 business-app/android/google-services.json
 business-app/config/firebase/ServiceAccount.js
+business-app/android/app/google-services.json
