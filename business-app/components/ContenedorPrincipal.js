@@ -13,7 +13,7 @@ const screenHeight = Dimensions.get('window').height;
 const iconSize = 0.06 * screenHeight;
 const headerHeight = 0.08 * screenHeight;
 const headerPadding = 0.02 * screenHeight;
-const footerHeight = 0.07 * screenHeight;
+const footerHeight = 0.04 * screenHeight;
 const footerPadding = 0.05 * screenHeight;
 // const screenWidth = Dimensions.get('window').width;
 // console.log(screenWidth);
@@ -38,6 +38,7 @@ const ContenedorPrincipal = (props) => {
                     <FontAwesomeIcon icon={faUser} size={iconSize} />
                 </View>
             </View>
+
         </>
     )
 
