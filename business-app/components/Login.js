@@ -6,12 +6,22 @@ import {
     KeyboardAvoidingView,
     View,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 
 import ContenedorPrincipal from './ContenedorPrincipal';
 import { colores } from '../config/colores';
 import { auth } from '../config/firebase/FirebaseConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+
+const screenHeight = Dimensions.get('window').height;
+const cabeceraMensajeHeight = 0.07 * screenHeight;
+const cabeceraMensajePadding = 0.01 * screenHeight;
+const cabeceraMensajeMargin = 0.03 * screenHeight;
+const iconSize = 0.2 * screenHeight;
+const iconMargin = 0.01 * screenHeight;
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -53,9 +63,16 @@ const Login = () => {
         <>
             <ContenedorPrincipal titulo="Iniciar Sesión" contenido={(
                 <>
+                    <View style={styles.cabeceraMensaje}>
+                        <Text style={styles.letraTitulo} >Complete los campos</Text>
+                    </View>
+                    <View style={styles.imgContainer}>
+                        <FontAwesomeIcon icon={faImage} size={iconSize} />
+                    </View>
+
                     <KeyboardAvoidingView
                         style={styles.container}
-                        behavior="padding"
+                        behavior="height"
                     >
                         <View style={styles.containerIzquierdo}>
                             <Text style={styles.letraTitulo} >Ingrese sus credenciales</Text>
@@ -80,9 +97,7 @@ const Login = () => {
                                 style={styles.input}
                                 secureTextEntry
                             />
-
                         </View>
-
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity
                                 onPress={handleLogin}
@@ -98,6 +113,8 @@ const Login = () => {
                             </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>
+
+
                 </>
 
             )}></ContenedorPrincipal>
@@ -108,6 +125,11 @@ const Login = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imgContainer: {
+        marginTop:iconMargin,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -128,27 +150,24 @@ const styles = StyleSheet.create({
         width: '60%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 20,
     },
     button: {
         backgroundColor: colores.fondoBarras,
         width: '100%',
-        padding: 15,
-        borderRadius: 10,
+        padding: 5,
         alignItems: 'center',
     },
     buttonOutline: {
         backgroundColor: colores.fondoBarras,
-        marginTop: 5,
+        marginTop: 0.01 * screenHeight,
     },
     buttonText: {
         color: colores.letra,
-        fontWeight: '700',
         fontSize: 16,
     },
     buttonOutlineText: {
         color: colores.letra,
-        fontWeight: '700',
         fontSize: 16,
     },
     letraTitulo: {
@@ -159,7 +178,15 @@ const styles = StyleSheet.create({
     letra: {
         fontSize: 16,
         color: colores.letra
-    }
+    },
+    cabeceraMensaje: {
+        backgroundColor: colores.fondoBarras,
+        height: cabeceraMensajeHeight,
+        padding: cabeceraMensajePadding,
+        marginTop: cabeceraMensajeMargin,
+        alignItems: 'center',
+        alignContent: 'center',
+    },
 })
 
 export default Login
