@@ -1,25 +1,20 @@
 import React from 'react';
-import { ContenedorPrincipal } from './components/ContenedorPrincipal';
-import {
-  Text,
-  StyleSheet
-} from 'react-native';
-import { colores } from './config/colores';
+import Inicio from './components/Inicio';
+import Login from './components/Login';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <>
-      <ContenedorPrincipal titulo="BIENVENIDO" contenido={(
-        <Text style={styles.letra}>Aqui se debe agregar contenido..</Text>
-      )}></ContenedorPrincipal>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Inicio">
+        <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  letra: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colores.letra
-  }
-});
+export default App

@@ -1,22 +1,22 @@
 import React from 'react';
+import ContenedorPrincipal from './ContenedorPrincipal';
 import {
     Text,
     StyleSheet
 } from 'react-native';
-import ContenedorPrincipal from './ContenedorPrincipal';
 import { colores } from '../config/colores';
 
-const Login = () => {
+const Inicio = () => {
     return (
-        <>
-            <ContenedorPrincipal titulo="Iniciar Sesión" contenido={(
-                <Text style={styles.letra}>Contenido Inicio de sesión</Text>
+        
+            <ContenedorPrincipal titulo="BIENVENIDO" contenido={(
+                <Text style={styles.letra}>Aqui se debe agregar contenido..</Text>
             )}></ContenedorPrincipal>
-        </>
+        
     );
 }
 
-export default Login
+export default Inicio
 
 const styles = StyleSheet.create({
     letra: {
@@ -25,3 +25,4 @@ const styles = StyleSheet.create({
         color: colores.letra
     }
 });
+
