@@ -19,7 +19,7 @@ const footerPadding = 0.05 * screenHeight;
 // console.log(screenWidth);
 // console.log(screenHeight);
 
-export function ContenedorPrincipal(props) {
+const ContenedorPrincipal = (props) => {
 
     const { titulo, contenido } = props;
     return (
@@ -42,6 +42,8 @@ export function ContenedorPrincipal(props) {
     )
 
 }
+
+export default ContenedorPrincipal
 
 const styles = StyleSheet.create({
     Cabecera: {
