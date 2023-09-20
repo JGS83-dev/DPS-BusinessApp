@@ -13,9 +13,18 @@ import ContenedorPrincipal from './ContenedorPrincipal';
 import { colores } from '../config/colores';
 import { app } from '../config/firebase/FirebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, signInWithEmailAndPassword } from "firebase/auth";
+import { faImage, faGoogle } from '@fortawesome/free-solid-svg-icons';
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    getReactNativePersistence,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider
+} from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+const provider = new GoogleAuthProvider();
 
 const screenHeight = Dimensions.get('window').height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
@@ -28,8 +37,6 @@ function Login({ navigation }) {
     const auth = getAuth(app, {
         persistence: getReactNativePersistence(ReactNativeAsyncStorage)
     });
-
-
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -50,6 +57,25 @@ function Login({ navigation }) {
 
         return unsubscribe
     }, [])
+
+    const handleProvider = () => {
+        console.log('Iniciando sesion con Google');
+        signInWithPopup(auth, provider)
+            .then(result => {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                const user = result.user;
+                console.log('Sesión iniciada con Google:', user.email);
+                console.log('Token generado con Google:', token);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.customData.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log('Credenciales del fallo:', credential);
+            });
+    }
 
     const handleSignUp = () => {
         console.log('Creando Cuenta');
@@ -125,6 +151,12 @@ function Login({ navigation }) {
                                     style={[styles.button]}
                                 >
                                     <Text style={styles.buttonText}>Crear Cuenta</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={handleProvider}
+                                    style={styles.button}
+                                >
+                                    <FontAwesomeIcon icon={faGoogle} size={iconSize} />
                                 </TouchableOpacity>
                             </View>
                         </KeyboardAvoidingView>
