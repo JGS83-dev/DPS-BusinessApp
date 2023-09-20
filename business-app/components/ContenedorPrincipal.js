@@ -1,27 +1,40 @@
 import { colores } from "../config/colores"
+import React from 'react'
 import {
     SafeAreaView,
     StyleSheet,
     View,
     Text,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHouse, faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const screenHeight = Dimensions.get('window').height;
-const iconSize = 0.09 * screenHeight;
+const iconSize = 0.06 * screenHeight;
 const headerHeight = 0.08 * screenHeight;
 const headerPadding = 0.02 * screenHeight;
-const footerHeight = 0.07 * screenHeight;
-const footerPadding = 0.05 * screenHeight;
+const footerHeight = 0.08 * screenHeight;
+const footerPadding = 0.03 * screenHeight;
 // const screenWidth = Dimensions.get('window').width;
 // console.log(screenWidth);
 // console.log(screenHeight);
 
-export function ContenedorPrincipal(props) {
+const ContenedorPrincipal = (props) => {
 
-    const { titulo, contenido } = props;
+    const { titulo, contenido, navigation } = props;
+
+    const IrAInicio = () => {
+        // console.log("Moviendo a Inicio...")
+        navigation.navigate("Inicio")
+    }
+    
+    const IrAIniciarSesion = () => {
+        // console.log("Moviendo a Iniciar Sesion...")
+        navigation.navigate("Login")
+    }
+
     return (
         <>
             <SafeAreaView style={styles.Cabecera}>
@@ -33,15 +46,24 @@ export function ContenedorPrincipal(props) {
                     {contenido}
                 </View>
                 <View style={styles.footer}>
-                    <FontAwesomeIcon icon={faHouse} size={iconSize} />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size={iconSize} />
-                    <FontAwesomeIcon icon={faUser} size={iconSize} />
+                    <TouchableOpacity onPress={IrAInicio}>
+                        <FontAwesomeIcon icon={faHouse} size={iconSize} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} size={iconSize} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={IrAIniciarSesion}>
+                        <FontAwesomeIcon icon={faUser} size={iconSize} />
+                    </TouchableOpacity>
                 </View>
             </View>
+
         </>
     )
 
 }
+
+export default ContenedorPrincipal
 
 const styles = StyleSheet.create({
     Cabecera: {
