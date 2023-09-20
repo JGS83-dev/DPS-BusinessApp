@@ -6,10 +6,12 @@ import {
 } from 'react-native';
 import { colores } from '../config/colores';
 
-const Inicio = () => {
+const Inicio = ({navigation}) => {
     return (
         
-            <ContenedorPrincipal titulo="BIENVENIDO" contenido={(
+            <ContenedorPrincipal titulo="BIENVENIDO"
+            navigation={navigation} 
+            contenido={(
                 <Text style={styles.letra}>Aqui se debe agregar contenido..</Text>
             )}></ContenedorPrincipal>
         

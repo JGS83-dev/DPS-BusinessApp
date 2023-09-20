@@ -23,16 +23,16 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.2 * screenHeight;
 const iconMargin = 0.01 * screenHeight;
 
-const Login = () => {
+function Login({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const navigation = useNavigation()
+    // const navigation = useNavigation()
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Inicio")
+                // navigation.navigate("Inicio")
             }
         })
 
@@ -40,28 +40,32 @@ const Login = () => {
     }, [])
 
     const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log('Registered with:', user.email);
-            })
-            .catch(error => alert(error.message))
+        console.log('Creando Cuenta');
+        // auth
+        //     .createUserWithEmailAndPassword(email, password)
+        //     .then(userCredentials => {
+        //         const user = userCredentials.user;
+        //         console.log('Registered with:', user.email);
+        //     })
+        //     .catch(error => alert(error.message))
     }
 
     const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log('Sesion iniciada:', user.email);
-            })
-            .catch(error => alert(error.message))
+        console.log('Iniciando sesion');
+        // auth
+        //     .signInWithEmailAndPassword(email, password)
+        //     .then(userCredentials => {
+        //         const user = userCredentials.user;
+        //         console.log('Sesion iniciada:', user.email);
+        //     })
+        //     .catch(error => alert(error.message))
     }
 
     return (
         <>
-            <ContenedorPrincipal titulo="Iniciar Sesión" contenido={(
+            <ContenedorPrincipal titulo="Iniciar Sesión" 
+            navigation={navigation}
+            contenido={(
                 <>
                     <View style={styles.cabeceraMensaje}>
                         <Text style={styles.letraTitulo} >Complete los campos</Text>
@@ -107,9 +111,9 @@ const Login = () => {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={handleSignUp}
-                                style={[styles.button, styles.buttonOutline]}
+                                style={[styles.button]}
                             >
-                                <Text style={styles.buttonOutlineText}>Crear Cuenta</Text>
+                                <Text style={styles.buttonText}>Crear Cuenta</Text>
                             </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>
@@ -157,16 +161,9 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 5,
         alignItems: 'center',
-    },
-    buttonOutline: {
-        backgroundColor: colores.fondoBarras,
-        marginTop: 0.01 * screenHeight,
+        marginBottom:10
     },
     buttonText: {
-        color: colores.letra,
-        fontSize: 16,
-    },
-    buttonOutlineText: {
         color: colores.letra,
         fontSize: 16,
     },
