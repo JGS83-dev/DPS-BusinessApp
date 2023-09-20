@@ -13,7 +13,7 @@ import ContenedorPrincipal from './ContenedorPrincipal';
 import { colores } from '../config/colores';
 import { app } from '../config/firebase/FirebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faImage, faGoogle } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faImage } from '@fortawesome/free-solid-svg-icons';
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -152,15 +152,11 @@ function Login({ navigation }) {
                                 >
                                     <Text style={styles.buttonText}>Crear Cuenta</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity
-                                    onPress={handleProvider}
-                                    style={styles.button}
-                                >
-                                    <FontAwesomeIcon icon={faGoogle} size={iconSize} />
-                                </TouchableOpacity>
+                                <TouchableOpacity onPress={handleProvider}>
+                                <FontAwesomeIcon icon={faAddressCard} size={iconSize*0.40} />
+                            </TouchableOpacity>
                             </View>
                         </KeyboardAvoidingView>
-
 
                     </>
 
