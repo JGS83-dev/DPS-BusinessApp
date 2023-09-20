@@ -24,8 +24,6 @@ import {
 } from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
-const provider = new GoogleAuthProvider();
-
 const screenHeight = Dimensions.get('window').height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
 const cabeceraMensajePadding = 0.01 * screenHeight;
@@ -60,8 +58,9 @@ function Login({ navigation }) {
 
     const handleProvider = () => {
         console.log('Iniciando sesion con Google');
+        const provider = new GoogleAuthProvider(app);
         signInWithPopup(auth, provider)
-            .then(result => {
+            .then((result) => {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
                 const user = result.user;
