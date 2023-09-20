@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import {
     Text,
@@ -12,9 +11,11 @@ import {
 
 import ContenedorPrincipal from './ContenedorPrincipal';
 import { colores } from '../config/colores';
-import { auth } from '../config/firebase/FirebaseConfig';
+import { app } from '../config/firebase/FirebaseConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { getAuth, createUserWithEmailAndPassword, getReactNativePersistence, signInWithEmailAndPassword } from "firebase/auth";
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const screenHeight = Dimensions.get('window').height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
@@ -23,7 +24,13 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.2 * screenHeight;
 const iconMargin = 0.01 * screenHeight;
 
-function Login({navigation}) {
+function Login({ navigation }) {
+    const auth = getAuth(app, {
+        persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+    });
+
+
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -33,6 +40,11 @@ function Login({navigation}) {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 // navigation.navigate("Inicio")
+                signOut(auth).then(() => {
+                    console.log('Cierre de sesión exitoso')
+                }).catch((error) => {
+                    console.log('Error al cerrar sesión')
+                });
             }
         })
 
@@ -41,87 +53,86 @@ function Login({navigation}) {
 
     const handleSignUp = () => {
         console.log('Creando Cuenta');
-        // auth
-        //     .createUserWithEmailAndPassword(email, password)
-        //     .then(userCredentials => {
-        //         const user = userCredentials.user;
-        //         console.log('Registered with:', user.email);
-        //     })
-        //     .catch(error => alert(error.message))
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Cuenta creada con:', user.email);
+            })
+            .catch(error => alert(error.message))
     }
 
     const handleLogin = () => {
         console.log('Iniciando sesion');
-        // auth
-        //     .signInWithEmailAndPassword(email, password)
-        //     .then(userCredentials => {
-        //         const user = userCredentials.user;
-        //         console.log('Sesion iniciada:', user.email);
-        //     })
-        //     .catch(error => alert(error.message))
+        signInWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Sesion iniciada:', user.email);
+                navigation.navigate("Inicio")
+            })
+            .catch(error => alert(error.message))
     }
 
     return (
         <>
-            <ContenedorPrincipal titulo="Iniciar Sesión" 
-            navigation={navigation}
-            contenido={(
-                <>
-                    <View style={styles.cabeceraMensaje}>
-                        <Text style={styles.letraTitulo} >Complete los campos</Text>
-                    </View>
-                    <View style={styles.imgContainer}>
-                        <FontAwesomeIcon icon={faImage} size={iconSize} />
-                    </View>
-
-                    <KeyboardAvoidingView
-                        style={styles.container}
-                        behavior="height"
-                    >
-                        <View style={styles.containerIzquierdo}>
-                            <Text style={styles.letraTitulo} >Ingrese sus credenciales</Text>
+            <ContenedorPrincipal titulo="Iniciar Sesión"
+                navigation={navigation}
+                contenido={(
+                    <>
+                        <View style={styles.cabeceraMensaje}>
+                            <Text style={styles.letraTitulo} >Complete los campos</Text>
                         </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.letra} >Correo:</Text>
-                            <TextInput
-                                placeholder="Correo"
-                                value={email}
-                                onChangeText={text => setEmail(text)}
-                                style={styles.input}
-                            />
-
+                        <View style={styles.imgContainer}>
+                            <FontAwesomeIcon icon={faImage} size={iconSize} />
                         </View>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.letra} >Contraseña:</Text>
-                            <TextInput
-                                placeholder="Contraseña"
-                                value={password}
-                                onChangeText={text => setPassword(text)}
-                                style={styles.input}
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity
-                                onPress={handleLogin}
-                                style={styles.button}
-                            >
-                                <Text style={styles.buttonText}>Iniciar Sesión</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={handleSignUp}
-                                style={[styles.button]}
-                            >
-                                <Text style={styles.buttonText}>Crear Cuenta</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </KeyboardAvoidingView>
+                        <KeyboardAvoidingView
+                            style={styles.container}
+                            behavior="height"
+                        >
+                            <View style={styles.containerIzquierdo}>
+                                <Text style={styles.letraTitulo} >Ingrese sus credenciales</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.letra} >Correo:</Text>
+                                <TextInput
+                                    placeholder="Correo"
+                                    value={email}
+                                    onChangeText={text => setEmail(text)}
+                                    style={styles.input}
+                                />
+
+                            </View>
+
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.letra} >Contraseña:</Text>
+                                <TextInput
+                                    placeholder="Contraseña"
+                                    value={password}
+                                    onChangeText={text => setPassword(text)}
+                                    style={styles.input}
+                                    secureTextEntry
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity
+                                    onPress={handleLogin}
+                                    style={styles.button}
+                                >
+                                    <Text style={styles.buttonText}>Iniciar Sesión</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={handleSignUp}
+                                    style={[styles.button]}
+                                >
+                                    <Text style={styles.buttonText}>Crear Cuenta</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </KeyboardAvoidingView>
 
 
-                </>
+                    </>
 
-            )}></ContenedorPrincipal>
+                )}></ContenedorPrincipal>
         </>
     );
 }
@@ -133,7 +144,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     imgContainer: {
-        marginTop:iconMargin,
+        marginTop: iconMargin,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -161,7 +172,7 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 5,
         alignItems: 'center',
-        marginBottom:10
+        marginBottom: 10
     },
     buttonText: {
         color: colores.letra,
