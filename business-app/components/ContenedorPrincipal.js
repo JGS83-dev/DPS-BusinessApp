@@ -49,7 +49,7 @@ const ContenedorPrincipal = (props) => {
                     <TouchableOpacity onPress={IrAInicio}>
                         <FontAwesomeIcon icon={faHouse} size={iconSize} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity >
                         <FontAwesomeIcon icon={faMagnifyingGlass} size={iconSize} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={IrAIniciarSesion}>
