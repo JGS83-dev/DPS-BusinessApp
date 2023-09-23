@@ -30,7 +30,7 @@ const RegisterForm = ({ onSubmit }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState(null);
-
+  //Este es el codigo que sirve para mandar a llamar a una imagen localmente
   const onPress = () => {
     // Abre el selector de archivos
     const { navigate } = useNavigation();
@@ -60,24 +60,40 @@ const RegisterForm = ({ onSubmit }) => {
     <>
       <ContenedorPrincipal
         titulo="Crear Cuenta"
-        //Aqui debe ir el Navegation
+        //Aqui debe ir el Navegation pero no me salio xd
         contenido={
           <>
             <View style={styles.cabeceraMensaje}>
               <Text style={styles.letraTitulo}>Complete los campos</Text>
             </View>
             <View style={styles.container}>
-              <View style={styles.buttonContainer}>
-                <View style={styles.imgContainer}>
-                  <FontAwesomeIcon icon={faImage} size={iconSize} />
-                </View>
-                {image && <Image source={image} style={styles.image} />}
-                <Button
-                  title="Buscar imagen"
-                  onPress={onPress}
-                  style={styles.inputContainer}
-                />
-              </View>
+              {image && <Image source={image} style={styles.image} />}
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colores.fondoBarras,
+                  color: "#ffffff",
+                  width: 90,
+                  height: 90,
+                  borderWidth: 1,
+                  borderRadius: 50,
+                  padding: 0,
+                  alignItems: "center",
+                }}
+                onPress={onPress}
+              >
+                <Text
+                  style={{
+                    color: colores.letra,
+                    fontSize: 26,
+                    textAlign: "center",
+                    margin: 0,
+                    paddingTop: 25,
+                  }}
+                >
+                  +
+                </Text>
+              </TouchableOpacity>
+
               <View style={styles.inputContainer}>
                 <Text style={styles.letra}>Nombre:</Text>
                 <TextInput
@@ -117,19 +133,16 @@ const RegisterForm = ({ onSubmit }) => {
               <View style={styles.inputContainer}>
                 <Text style={styles.letra}>Confirmar Contraseña:</Text>
                 <TextInput
-                  placeholder="Confirmar constraseña"
+                  placeholder="Confirmar"
                   value={confirmPassword}
                   onChangeText={(text) => setConfirmPassword(text)}
                   style={styles.input}
                 />
               </View>
               <View style={styles.buttonContainer}>
-                <Button
-                  title="Crear cuenta"
-                  onPress={onPress}
-                  style={styles.button}
-                />
-
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>Crear cuenta</Text>
+                </TouchableOpacity>
                 <FontAwesomeIcon icon={faAddressCard} size={iconSize * 0.4} />
               </View>
             </View>
