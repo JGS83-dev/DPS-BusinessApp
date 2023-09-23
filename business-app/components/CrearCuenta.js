@@ -65,10 +65,12 @@ const RegisterForm = ({ onSubmit }) => {
                   <View style={styles.cabeceraMensaje}>
                             <Text style={styles.letraTitulo} >Complete los campos</Text>
                         </View>
+                        <View style={styles.container}>
+                        <View style={styles.buttonContainer}>
                         <View style={styles.imgContainer}>
                             <FontAwesomeIcon icon={faImage} size={iconSize} />
                         </View>
-      {image && (
+                        {image && (
         <Image
           source={image}
           style={styles.image}
@@ -77,8 +79,12 @@ const RegisterForm = ({ onSubmit }) => {
       <Button
         title="Buscar imagen"
         onPress={onPress}
-        style={styles.button}
+        style={styles.inputContainer}
       />
+                        </View>
+                        </View>
+                       
+    
             </>
         )}></ContenedorPrincipal>
 </>
