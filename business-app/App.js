@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
 LogBox
 } from 'react-native';
+import CrearCuenta from './components/CrearCuenta';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ function App() {
       <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen options={{ headerShown: false }} name="CrearCuenta" component={CrearCuenta} />
       </Stack.Navigator>
     </NavigationContainer>
   );
