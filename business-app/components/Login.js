@@ -78,12 +78,13 @@ function Login({ navigation }) {
 
     const handleSignUp = () => {
         console.log('Creando Cuenta');
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log('Cuenta creada con:', user.email);
-            })
-            .catch(error => alert(error.message))
+        navigation.navigate("CrearCuenta");
+        // createUserWithEmailAndPassword(auth, email, password)
+        //     .then(userCredentials => {
+        //         const user = userCredentials.user;
+        //         console.log('Cuenta creada con:', user.email);
+        //     })
+        //     .catch(error => alert(error.message))
     }
 
     const handleLogin = () => {
