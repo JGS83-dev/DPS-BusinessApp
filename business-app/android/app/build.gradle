@@ -92,13 +92,15 @@ android {
 
         buildConfigField("boolean", "REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS", (findProperty("reactNative.unstable_useRuntimeSchedulerAlways") ?: true).toString())
     }
-    splits {
-        abi {
-            reset()
-            enable true
-            universalApk false
-            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
+    if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+        splits {
+            abi {
+                reset()
+                enable true
+                universalApk false
+                include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            }
+    }
     }
     signingConfigs {
         release {
@@ -123,7 +125,11 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                signingConfig signingConfigs.release
+            }else{
+                signingConfig signingConfigs.debug
+            }
             shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
