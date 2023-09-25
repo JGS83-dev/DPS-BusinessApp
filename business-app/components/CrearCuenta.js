@@ -23,7 +23,7 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.2 * screenHeight;
 const iconMargin = 0.01 * screenHeight;
 
-const RegisterForm = ({ onSubmit }) => {
+const CrearCuenta = ({ onSubmit,navigation }) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,8 +33,7 @@ const RegisterForm = ({ onSubmit }) => {
   //Este es el codigo que sirve para mandar a llamar a una imagen localmente
   const onPress = () => {
     // Abre el selector de archivos
-    const { navigate } = useNavigation();
-    navigate("ImagePicker", {
+    navigation.navigate("ImagePicker", {
       onImagePicked: (image) => {
         // Actualiza el estado de la imagen
         setImage(image);
@@ -60,7 +59,7 @@ const RegisterForm = ({ onSubmit }) => {
     <>
       <ContenedorPrincipal
         titulo="Crear Cuenta"
-        //Aqui debe ir el Navegation pero no me salio xd
+        navigation={navigation}
         contenido={
           <>
             <View style={styles.cabeceraMensaje}>
@@ -208,4 +207,4 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
 });
-export default RegisterForm;
+export default CrearCuenta;
