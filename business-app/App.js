@@ -7,6 +7,7 @@ import {
 LogBox
 } from 'react-native';
 import CrearCuenta from './components/CrearCuenta';
+import VerNoticias from './components/VerNoticias';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ function App() {
         <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="CrearCuenta" component={CrearCuenta} />
+        <Stack.Screen options={{ headerShown: false }} name="VerNoticias" component={VerNoticias} />
       </Stack.Navigator>
     </NavigationContainer>
   );
