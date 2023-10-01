@@ -16,7 +16,7 @@ LogBox.ignoreAllLogs();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Inicio">
+      <Stack.Navigator initialRouteName="VerNoticias">
         <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="CrearCuenta" component={CrearCuenta} />
