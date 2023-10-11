@@ -1,11 +1,23 @@
-const db = require('./../../config/FirebaseConfig');
+import firebase from './../../config/FirebaseConfig.js';
+import { getFirestore } from 'firebase-admin/firestore';
+const db = getFirestore(firebase);
 
-async function ObtenerEventos() {
+export const ObtenerEventos = async (req, res, next) => {
+    let response = {}
     try {
-        const snapshot = await db.collection('eventos').get();
-        return snapshot;
-    } catch (e) {
-        console.log('Error:', e);
+        const eventos = await db.collection('eventos').get();
+        if (eventos.empty) {
+            response.data = eventos;
+            response.message = 'No se econtraron Eventos activos';
+            res.status(400).json(response);
+        } else {
+            response.data = eventos;
+            response.message = 'Eventos activos';
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        console.log('Ocurrio el error:', error);
+        response.message = 'Ocurrió un error';
+        res.status(400).json(response);
     }
-}
-module.exports = { ObtenerEventos } 
+};

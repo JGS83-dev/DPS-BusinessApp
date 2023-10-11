@@ -1,25 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const ObtenerEventos = require('./src/rutas/controladores/EventosController');
+import express from 'express';
+import cors from 'cors';
+import EventosRouter from './src/rutas/EventosRouter.js';
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  let response = {};
-  try {
-    response.data = ObtenerEventos
-    response.message = 'Eventos obtenidos con éxito'
-    res.status = 200
-  } catch (e) {
-    console.log('Error:', e);
-    response.data = ObtenerEventos
-    response.message = 'Eventos obtenidos con éxito'
-    res.status = 500
-  }
+//routes
+app.use('/api/eventos', EventosRouter);
 
-  res.json(response);
-});
 
 const port = 5000;
 app.listen(port, () => {
