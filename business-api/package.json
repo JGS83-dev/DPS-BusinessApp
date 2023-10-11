@@ -5,13 +5,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "deploy":"gcloud functions deploy api-service --region=us-west1 --runtime=nodejs18 --allow-unauthenticated --memory=256MB --max-instances=10 --min-instances=0 --trigger-http --entry-point=app"
+    "deploy": "gcloud functions deploy api-service --region=us-west1 --runtime=nodejs18 --allow-unauthenticated --memory=256MB --max-instances=10 --min-instances=0 --trigger-http --entry-point=app"
   },
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "firebase": "^10.4.0",
     "nodemon": "^3.0.1"
   }
 }
