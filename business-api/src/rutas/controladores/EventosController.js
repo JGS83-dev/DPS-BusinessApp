@@ -3,21 +3,37 @@ import { getFirestore } from 'firebase-admin/firestore';
 const db = getFirestore(firebase);
 
 export const ObtenerEventos = async (req, res, next) => {
-    let response = {}
+    let response = {};
     try {
-        const eventos = await db.collection('eventos').get();
-        if (eventos.empty) {
-            response.data = eventos;
-            response.message = 'No se econtraron Eventos activos';
+        const eventos = db.collection('eventos');
+        const snapshot = eventos.where('estado','==','activo').get().then((result) => {
+            // console.log('Resultado:',result);
+            if (result.empty) {
+                response.data = [];
+                response.message = 'No se econtraron Eventos activos';
+                res.status(400).json(response);
+            } else {
+                let data = [];
+                result.forEach(doc => {
+                    let tempEvento = {
+                        id: doc.id,
+                        titulo: doc._fieldsProto.titulo.stringValue,
+                        estado: doc._fieldsProto.estado.stringValue
+                    }
+                    data.push(tempEvento);
+                });
+                response.data = data;
+                response.message = 'Eventos activos';
+                res.status(200).json(response);
+            }
+        }).catch(e=>{
+            console.log('Se produjo una excepcion al procesar la información:', e);
+            response.message = 'Ocurrió un error al procesar la información';
             res.status(400).json(response);
-        } else {
-            response.data = eventos;
-            response.message = 'Eventos activos';
-            res.status(200).json(response);
-        }
+        });
     } catch (error) {
-        console.log('Ocurrio el error:', error);
-        response.message = 'Ocurrió un error';
+        console.log('Se produjo una excepcion al procesar la peticion:', error);
+        response.message = 'Ocurrió un error al procesar la petición';
         res.status(400).json(response);
     }
 };
