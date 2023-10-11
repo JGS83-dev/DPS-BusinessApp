@@ -1,9 +1,24 @@
 const express = require('express');
+const cors = require('cors');
+const ObtenerEventos = require('./src/rutas/controladores/EventosController');
+
 const app = express();
+app.use(cors());
 
 app.get('/', (req, res) => {
-  const name = process.env.NAME || 'Base';
-  res.send(`Ruta ${name}!`);
+  let response = {};
+  try {
+    response.data = ObtenerEventos
+    response.message = 'Eventos obtenidos con éxito'
+    res.status = 200
+  } catch (e) {
+    console.log('Error:', e);
+    response.data = ObtenerEventos
+    response.message = 'Eventos obtenidos con éxito'
+    res.status = 500
+  }
+
+  res.json(response);
 });
 
 const port = 5000;
