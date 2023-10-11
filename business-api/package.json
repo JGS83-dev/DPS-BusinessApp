@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "deploy":"gcloud functions deploy api-service --region=us-west1 --runtime=nodejs18 --allow-unauthenticated --memory=256MB --max-instances=10 --min-instances=0 --trigger-http --entry-point=app"
   },
   "author": "",
   "license": "ISC",
