@@ -15,15 +15,16 @@ export const ObtenerEventos = async (req, res, next) => {
             } else {
                 let data = [];
                 result.forEach(doc => {
+                    // console.log('Resultado',doc);
                     let tempEvento = {
                         id: doc.id,
                         titulo: doc._fieldsProto.titulo.stringValue,
                         estado: doc._fieldsProto.estado.stringValue,
-                        descripcion: doc._fieldsProto.descripcion.stringValue,
-                        imagenes: doc._fieldsProto.imagenes.stringValue,
+                        descripcion: doc._fieldsProto.descripcion.mapValue,
+                        imagenes: doc._fieldsProto.imagenes.mapValue,
                         fechaInicio: doc._fieldsProto.fechaInicio.stringValue,
                         fechaFin: doc._fieldsProto.fechaFin.stringValue,
-                        autor: doc._fieldsProto.autor.stringValue,
+                        autor: doc._fieldsProto.autor.integerValue,
                     }
                     data.push(tempEvento);
                 });
