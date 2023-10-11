@@ -2,6 +2,7 @@
   "name": "business-api",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
@@ -10,11 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.0",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.22.20",
     "@google-cloud/functions-framework": "^3.3.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.11.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "save-dev": "^0.0.1-security"
   }
 }
