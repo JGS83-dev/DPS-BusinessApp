@@ -8,8 +8,10 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faHouse, faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHouse, faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding } from "@fortawesome/free-regular-svg-icons";
+
 
 const screenHeight = Dimensions.get('window').height;
 const iconSize = 0.06 * screenHeight;
@@ -34,7 +36,10 @@ const ContenedorPrincipal = (props) => {
         // console.log("Moviendo a Iniciar Sesion...")
         navigation.navigate("Login")
     }
-
+    const IrAPerfilEmpresa = () => {
+        // console.log("Moviendo a Perfil Empresa...")
+        navigation.navigate("PerfilEmpresa")
+    }
     return (
         <>
             <SafeAreaView style={styles.Cabecera}>
@@ -54,6 +59,9 @@ const ContenedorPrincipal = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={IrAIniciarSesion}>
                         <FontAwesomeIcon icon={faUser} size={iconSize} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={IrAPerfilEmpresa}>
+                        <FontAwesomeIcon icon={faBuilding} size={iconSize} />
                     </TouchableOpacity>
                 </View>
             </View>
