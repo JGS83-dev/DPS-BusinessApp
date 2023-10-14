@@ -28,6 +28,14 @@ const Inicio = ({ navigation }) => {
         navigation.navigate("PerfilEmpresa")
     }
 
+    const IrALogin = () => {
+        navigation.navigate("Login");
+    }
+
+    const IrACrearCuenta = () => {
+        navigation.navigate("CrearCuenta")
+    }
+
     return (
 
         <ContenedorPrincipal titulo="BIENVENIDO"
@@ -74,6 +82,21 @@ const Inicio = ({ navigation }) => {
                                 </View>
                             </View>
 
+                        </View>
+
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity
+                                onPress={IrACrearCuenta}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>CrearCuenta</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={IrALogin}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>Iniciar Sesión</Text>
+                            </TouchableOpacity>
                         </View>
                     </ScrollView>
                 </>
@@ -166,6 +189,23 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 5,
         width: '15%'
+    },
+    buttonContainer: {
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        marginTop: 20,
+        flexDirection: 'row',
+        marginBottom: 15
+    },
+    button: {
+        backgroundColor: colores.fondoBarras,
+        padding: 5,
+        alignItems: 'center',
+
+    },
+    buttonText: {
+        color: colores.letra,
+        fontSize: 16,
     },
 });
 
