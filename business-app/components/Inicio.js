@@ -16,6 +16,7 @@ const screenHeight = Dimensions.get('window').height;
 const iconSize = 0.5 * screenWidth;
 const iconEmpresaImg = 0.35 * screenWidth;
 const iconMargin = 0.05 * screenHeight;
+const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
     return (
@@ -34,8 +35,15 @@ const Inicio = ({ navigation }) => {
 
                             <ScrollView horizontal={true}>
 
-                                <View style={styles.iconContainer}>
-                                    <FontAwesomeIcon icon={faImage} size={iconSize} />
+                                <View style={styles.contenedorNoticia}>
+                                    <View style={styles.verticalInfo}>
+                                        <Text style={styles.tituloNoticia}>Titulo Noticia</Text>
+                                        <Text style={styles.contenidoNoticia}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at massa quis ante congue egestas.</Text>
+                                    </View>
+                                    <View style={styles.verticalInfo}>
+                                        <FontAwesomeIcon icon={faImage} size={iconSize} />
+                                        <Text style={styles.masInfo}>Más info.</Text>
+                                    </View>
                                 </View>
 
                             </ScrollView>
@@ -110,10 +118,40 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     iconContainer: {
-        marginRight: iconMargin, 
-        marginTop: iconMargin,   
+        marginRight: iconMargin,
+        marginTop: iconMargin,
         justifyContent: 'center',
-        alignItems: 'center',       
+        alignItems: 'center',
     },
+    tituloNoticia: {
+        color: colores.letra,
+        fontWeight: 'bold',
+        fontSize: tituloSize,
+    },
+    contenedorNoticia: {
+        flex: 1,
+        backgroundColor: colores.fondoBarras,
+        padding: 10,
+        margin: 10,
+        borderRadius: 15,
+        borderColor: '#000000',
+        flexDirection: 'row',
+    },
+    contenidoNoticia: {
+        color: colores.letra,
+        textAlign: 'justify'
+    },
+    masInfo: {
+        color: colores.letra,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+        textAlign: 'right'
+    },
+    verticalInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 5,
+        width: '15%'
+    }
 });
 
