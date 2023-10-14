@@ -5,6 +5,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from 'react-native';
 import { colores } from '../config/colores';
@@ -19,6 +20,14 @@ const iconMargin = 0.05 * screenHeight;
 const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
+    const IrANoticias = () => {
+        navigation.navigate("VerNoticias");
+    }
+
+    const IrAPerfilEmpresa = () => {
+        navigation.navigate("PerfilEmpresa")
+    }
+
     return (
 
         <ContenedorPrincipal titulo="BIENVENIDO"
@@ -42,7 +51,9 @@ const Inicio = ({ navigation }) => {
                                     </View>
                                     <View style={styles.verticalInfo}>
                                         <FontAwesomeIcon icon={faImage} size={iconSize} />
-                                        <Text style={styles.masInfo}>Más info.</Text>
+                                        <TouchableOpacity style={styles.button} onPress={IrANoticias}>
+                                            <Text style={styles.masInfo} >Más info.</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
 
@@ -56,7 +67,10 @@ const Inicio = ({ navigation }) => {
                             <Text style={styles.nombreEmpresa}>Empresa #1</Text>
                             <View style={styles.flex}>
                                 <View style={styles.contenedorImgEmpresa}>
-                                    <FontAwesomeIcon icon={faImage} size={iconEmpresaImg} style={styles.imagenEmpresa} />
+                                    <TouchableOpacity onPress={IrAPerfilEmpresa}>
+                                        <FontAwesomeIcon icon={faImage} size={iconEmpresaImg} style={styles.imagenEmpresa} />
+                                    </TouchableOpacity>
+
                                 </View>
                             </View>
 
@@ -152,6 +166,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 5,
         width: '15%'
-    }
+    },
 });
 
