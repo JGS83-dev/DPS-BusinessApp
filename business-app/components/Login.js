@@ -65,9 +65,17 @@ function Login({ navigation }) {
 
   const handleProvider = async () => {
     try {
+      if (userInfo !== undefined) {
+        console.log("Cerrando sesion");
+        await GoogleSignin.signOut();
+        setuserInfo(undefined);
+        console.log("Revocando acceso");
+        await GoogleSignin.revokeAccess();
+      }
       console.log("Iniciando sesion con Google");
       await GoogleSignin.hasPlayServices();
       const data = await GoogleSignin.signIn();
+      console.log("Asignando sesion");
       setuserInfo(data);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -94,7 +102,7 @@ function Login({ navigation }) {
 
   useEffect(() => {
     if (userInfo !== undefined) {
-    //   console.log("Info de sesión:", userInfo);
+      //   console.log("Info de sesión:", userInfo);
       Alert.alert("Inicio de sesión", "Inicio de sesión con Google Exitoso", [
         { text: "OK", onPress: () => navigation.navigate("Inicio") },
       ]);
@@ -112,7 +120,9 @@ function Login({ navigation }) {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Sesion iniciada:", user.email);
-        navigation.navigate("Inicio");
+        Alert.alert("Inicio de sesión", "Inicio de sesión con Credenciales Exitoso", [
+            { text: "OK", onPress: () => navigation.navigate("Inicio") },
+          ]);
       })
       .catch((error) => alert(error.message));
   };
