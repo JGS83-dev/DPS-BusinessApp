@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse, faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { faBuilding } from "@fortawesome/free-regular-svg-icons";
-
 
 const screenHeight = Dimensions.get('window').height;
 const iconSize = 0.06 * screenHeight;
