@@ -5,7 +5,8 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableOpacity
 } from 'react-native';
 import { colores } from '../config/colores';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
