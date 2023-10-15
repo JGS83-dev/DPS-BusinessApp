@@ -67,3 +67,4 @@ Sin restricciones adicionales : no puede aplicar términos legales o medidas tec
 * [Manual de usuario] - https://drive.google.com/file/d/1lPAFmQaVgOX8e_ZvDxNO2RO2Xpbifewu/view?usp=sharing
 * [Manual Técnico] - https://drive.google.com/file/d/1AuIbwXJ0o8afn8ooxssoUdo-IuELfCke/view?usp=sharing
 * [Mockups] - https://drive.google.com/file/d/17c04s_J1zd0d2uG6pE3hnDWGt4BtiVRi/view?usp=sharing
+* [Video Demostrativo] - https://drive.google.com/file/d/1Vma1oOd1VY65tgABZsG-Cgp0icgUfjFO/view?usp=sharing
