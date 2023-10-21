@@ -64,7 +64,6 @@ Sin restricciones adicionales : no puede aplicar términos legales o medidas tec
 ## Complementos
 
 * [Tablero en Trello] - https://trello.com/invite/b/FFTFJgoK/ATTI888efee309823f0ab1f8fca8783b56f912A41BC0/desarrollo-proyecto
-* [Manual de usuario] - https://drive.google.com/file/d/1lPAFmQaVgOX8e_ZvDxNO2RO2Xpbifewu/view?usp=sharing
-* [Manual Técnico] - https://drive.google.com/file/d/1AuIbwXJ0o8afn8ooxssoUdo-IuELfCke/view?usp=sharing
+* [Manual de usuario] - 
+* [Manual Técnico] - 
 * [Mockups] - https://drive.google.com/file/d/17c04s_J1zd0d2uG6pE3hnDWGt4BtiVRi/view?usp=sharing
-* [Video Demostrativo] - https://drive.google.com/file/d/1Vma1oOd1VY65tgABZsG-Cgp0icgUfjFO/view?usp=sharing

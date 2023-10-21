@@ -8,7 +8,6 @@ LogBox
 } from 'react-native';
 import CrearCuenta from './components/CrearCuenta';
 import VerNoticias from './components/VerNoticias';
-import PerfilEmpresa from './components/PerfilEmpresa';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,12 +16,11 @@ LogBox.ignoreAllLogs();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Inicio">
+      <Stack.Navigator initialRouteName="VerNoticias">
         <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="CrearCuenta" component={CrearCuenta} />
         <Stack.Screen options={{ headerShown: false }} name="VerNoticias" component={VerNoticias} />
-        <Stack.Screen options={{ headerShown: false }} name="PerfilEmpresa" component={PerfilEmpresa} />
       </Stack.Navigator>
     </NavigationContainer>
   );
