@@ -30,64 +30,6 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState(null);
-//Const para el manejo del error  
-const [nameError, setNameError] = useState('');
-const [lastNameError, setLastNameError] = useState('');
-const [emailError, setEmailError] = useState('');
-const [passwordError, setPasswordError] = useState('');
-const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-
-//Metodo Handle
-const handleNameChange = (text) => {
-  setName(text);
-  if (text.trim() === '') {
-    setNameError('Debe completar el campo');
-  } else {
-    setNameError('');
-  }
-};
-
-const handleLastNameChange = (text) => {
-  setLastName(text);
-  if (text.trim() === '') {
-    setLastNameError('Debe completar el campo');
-  } else {
-    setLastNameError('');
-  }
-};
-
-const handleEmailChange = (text) => {
-  setEmail(text);
-  if (text.trim() === '') {
-    setEmailError('Debe completar el campo');
-  } else {
-    setEmailError('');
-  }
-};
-
-const handlePasswordChange = (text) => {
-  setPassword(text);
-  if (text.trim() === '') {
-    setPasswordError('Debe completar el campo');
-  } else {
-    setPasswordError('');
-  }
-};
-
-const handleConfirmPasswordChange = (text) => {
-  setConfirmPassword(text);
-  if (text.trim() === '') {
-    setConfirmPasswordError('Debe completar el campo');
-  } else {
-    setConfirmPasswordError('');
-  }
-};
-
-
-
-//Fin del metodo
-
   //Este es el codigo que sirve para mandar a llamar a una imagen localmente
   const onPress = () => {
     // Abre el selector de archivos
@@ -154,12 +96,11 @@ const handleConfirmPasswordChange = (text) => {
               <View style={styles.inputContainer}>
                 <Text style={styles.letra}>Nombre:</Text>
                 <TextInput
-                placeholder="Nombres"
-                value={name}
-                onChangeText={handleNameChange}
-                style={styles.input}
+                  placeholder="Nombres"
+                  value={name}
+                  onChangeText={(text) => setName(text)}
+                  style={styles.input}
                 />
-                 {nameError && <Text style={styles.errorText}>{nameError}</Text>}
               </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.letra}>Apellido:</Text>
@@ -264,10 +205,6 @@ const styles = StyleSheet.create({
     marginTop: cabeceraMensajeMargin,
     alignItems: "center",
     alignContent: "center",
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 12,
   },
 });
 export default CrearCuenta;
