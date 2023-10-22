@@ -5,7 +5,8 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableOpacity
 } from 'react-native';
 import { colores } from '../config/colores';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -17,6 +18,11 @@ const iconSizeAuthor = 0.35 * screenWidth;
 const widthTextAuthor = 0.5 * screenWidth;
 
 const VerNoticias = ({navigation}) => {
+    
+    const IrAPerfilEmpresa = () => {
+        navigation.navigate("PerfilEmpresa")
+    }
+
     return (
         
             <ContenedorPrincipal titulo="Ver Noticias"
@@ -65,7 +71,9 @@ const VerNoticias = ({navigation}) => {
                             
                             <View style={styles.flex}>
                                 <View style={styles.iconContainerAuthor}>
-                                    <FontAwesomeIcon icon={faImage} size={iconSizeAuthor} style={styles.imagenAuthor}/>
+                                    <TouchableOpacity onPress={IrAPerfilEmpresa}>
+                                        <FontAwesomeIcon icon={faImage} size={iconSizeAuthor} style={styles.imagenAuthor} />
+                                    </TouchableOpacity>
                                 </View>
                                 <Text style={styles.letraDescriptionAuthor} >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at massa quis ante congue egestas.</Text>
                             </View>
