@@ -151,21 +151,42 @@ export const InfoEmpresa = async (req, res, next) => {
     const empresas = db.collection("empresas").doc(req.body.id);
     const snapshot = empresas
       .get()
-      .then((result) => {
-        if (result.empty) {
+      .then((doc) => {
+        if (doc.empty) {
           response.data = [];
           response.message = "No se econtro empresa activa";
           res.status(400).json(response);
         } else {
-          let data = [];
-          result.forEach((doc) => {
             // console.log('Resultado',doc);
+            let listaHorario = [];
+            doc._fieldsProto.horario.arrayValue.values.map((ele) => {
+              listaHorario.push(ele.mapValue.fields);
+            });
+            let listaTelefono = [];
+            doc._fieldsProto.telefono.arrayValue.values.map((ele) => {
+              listaTelefono.push(ele.mapValue.fields);
+            });
+            let listaSucursales = [];
+            doc._fieldsProto.sucursales.arrayValue.values.map((ele) => {
+              listaSucursales.push(ele.mapValue.fields);
+            });
             let tempEmpresa = {
+              id: doc.id,
               estado: doc._fieldsProto.estado.stringValue,
+              nombre: doc._fieldsProto.nombre.stringValue,
+              descripcion: doc._fieldsProto.descripcion.stringValue,
+              imagen: doc._fieldsProto.imagen.mapValue.fields,
+              ubicacion: doc._fieldsProto.ubicacion.stringValue,
+              sucursales: listaSucursales,
+              horario: listaHorario,
+              telefono: listaTelefono,
+              fechaFundacion: doc._fieldsProto.fechaFundacion.stringValue,
+              fechaRegistro: doc._fieldsProto.fechaRegistro.stringValue,
+              categoria: doc._fieldsProto.categoria.stringValue,
+              correo: doc._fieldsProto.correo.stringValue,
             };
-            data.push(tempEmpresa);
-          });
-          response.data = data;
+
+          response.data = tempEmpresa;
           response.message = "Empresa activa";
           res.status(200).json(response);
         }
