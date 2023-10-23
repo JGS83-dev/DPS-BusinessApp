@@ -88,7 +88,7 @@ const Inicio = ({ navigation }) => {
 
             <View style={styles.containerimg}>
               {isLoading ? (
-                <Text>Cargando...</Text>
+                <Text style={styles.letra}>Cargando...</Text>
               ) : (
                 <ScrollView horizontal={true}>
                   {eventos.map((item) => (
@@ -128,7 +128,7 @@ const Inicio = ({ navigation }) => {
               <Text style={styles.cabeceraDescubre}>Descubre Cerca de ti</Text>
 
               {isLoading ? (
-                <Text>Cargando...</Text>
+                <Text style={styles.letra}>Cargando...</Text>
               ) : (
                 <ScrollView horizontal={true}>
                   {empresas.map((item) => (

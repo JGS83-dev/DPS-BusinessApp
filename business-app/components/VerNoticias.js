@@ -64,7 +64,7 @@ const VerNoticias = ({ route, navigation }) => {
   }, [evento]);
 
   useEffect(() => {
-    if (evento !== null) {
+    if (empresa !== null) {
       //   console.log("Empresa:", empresa);
       setIsLoading(false);
     }
@@ -77,7 +77,7 @@ const VerNoticias = ({ route, navigation }) => {
       contenido={
         <>
           {isLoading ? (
-            <Text>Cargando...</Text>
+            <Text style={styles.letra}>Cargando...</Text>
           ) : (
             <ScrollView vertical={true}>
               <View style={styles.cabeceraMensaje}>
