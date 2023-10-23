@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ContenedorPrincipal from "./ContenedorPrincipal";
 import {
   Dimensions,
@@ -7,10 +7,13 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { colores } from "../config/colores";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { URL_BASE } from "@env";
+import axios from "axios";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -36,6 +39,39 @@ const Inicio = ({ navigation }) => {
     navigation.navigate("CrearCuenta");
   };
 
+  const [eventos, setEventos] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const instance = axios.create({
+    baseURL: URL_BASE,
+    timeout: 1000,
+  });
+
+  useEffect(() => {
+    const obtenerEventos = async () => {
+      instance
+        .get("/eventos")
+        .then(function (response) {
+          // handle success
+          // console.log(response.data);
+          setEventos(response.data.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
+
+    obtenerEventos();
+  }, []);
+
+  useEffect(() => {
+    if (eventos !== null) {
+      // console.log('Eventos:',eventos);
+      setIsLoading(false);
+    }
+  }, [eventos]);
+
   return (
     <ContenedorPrincipal
       titulo="BIENVENIDO"
@@ -48,26 +84,34 @@ const Inicio = ({ navigation }) => {
             </View>
 
             <View style={styles.containerimg}>
-              <ScrollView horizontal={true}>
-                <View style={styles.contenedorNoticia}>
-                  <View style={styles.verticalInfo}>
-                    <Text style={styles.tituloNoticia}>Titulo Noticia</Text>
-                    <Text style={styles.contenidoNoticia}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Duis at massa quis ante congue egestas.
-                    </Text>
-                  </View>
-                  <View style={styles.verticalInfo}>
-                    <FontAwesomeIcon icon={faImage} size={iconSize} />
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={IrANoticias}
-                    >
-                      <Text style={styles.masInfo}>Más info.</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </ScrollView>
+              {isLoading ? (
+                <Text>Cargando...</Text>
+              ) : (
+                <ScrollView horizontal={true}>
+                  {eventos.map((item) => (
+                    // Contenedor Padre
+                    <View style={styles.contenedorNoticia}>
+                      {/* Contenedor Izquierda */}
+                      <View style={styles.verticalInfo}>
+                        <Text style={styles.tituloNoticia}>{item.titulo}</Text>
+                        <Text style={styles.contenidoNoticia}>
+                          {item.descripcion.resumen}
+                        </Text>
+                      </View>
+                      {/* Contenedor Derecho */}
+                      <View style={styles.verticalInfoDerecha}>
+                      <Image source={{ uri:`${item.imagenes.principal}` }} style={styles.cardImage} />
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={IrANoticias}
+                        >
+                          <Text style={styles.masInfo}>Más info.</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ))}
+                </ScrollView>
+              )}
             </View>
 
             <View>
@@ -169,6 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: "#000000",
     flexDirection: "row",
+    width:iconSize * 1.75
   },
   contenidoNoticia: {
     color: colores.letra,
@@ -184,7 +229,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     padding: 5,
-    width: "15%",
+    width: "50%",
+  },
+  verticalInfoDerecha: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 5,
+    width: "30%",
   },
   buttonContainer: {
     justifyContent: "space-evenly",
@@ -201,5 +252,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: colores.letra,
     fontSize: 16,
+  },
+  cardImage: {
+    width: iconSize * 0.75,
+    height: iconSize *0.75,
+    borderRadius: 10,
   },
 });
