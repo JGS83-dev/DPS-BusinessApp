@@ -151,7 +151,6 @@ export const InfoEvento = async (req, res, next) => {
           response.message = "No se encontro la noticia";
           res.status(400).json(response);
         } else {
-          let data = [];
           // console.log('Resultado',doc);
           let tempEvento = {
             id: doc.id,
@@ -178,9 +177,8 @@ export const InfoEvento = async (req, res, next) => {
             fechaFin: doc._fieldsProto.fechaFin.stringValue,
             autor: doc._fieldsProto.autor.integerValue,
           };
-          data.push(tempEvento);
 
-          response.data = data;
+          response.data = tempEvento;
           response.message = "Eventos activos";
           res.status(200).json(response);
         }
