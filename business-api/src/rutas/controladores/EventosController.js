@@ -24,13 +24,23 @@ export const ObtenerEventos = async (req, res, next) => {
               titulo: doc._fieldsProto.titulo.stringValue,
               estado: doc._fieldsProto.estado.stringValue,
               descripcion: {
-                completa:doc._fieldsProto.descripcion.mapValue.fields.completa.stringValue,
-                otros:doc._fieldsProto.descripcion.mapValue.fields.otros.stringValue,
-                resumen:doc._fieldsProto.descripcion.mapValue.fields.resumen.stringValue,
+                completa:
+                  doc._fieldsProto.descripcion.mapValue.fields.completa
+                    .stringValue,
+                otros:
+                  doc._fieldsProto.descripcion.mapValue.fields.otros
+                    .stringValue,
+                resumen:
+                  doc._fieldsProto.descripcion.mapValue.fields.resumen
+                    .stringValue,
               },
               imagenes: {
-                principal:doc._fieldsProto.imagenes.mapValue.fields.principal.stringValue,
-                otras:doc._fieldsProto.imagenes.mapValue.fields.otras.arrayValue.values
+                principal:
+                  doc._fieldsProto.imagenes.mapValue.fields.principal
+                    .stringValue,
+                otras:
+                  doc._fieldsProto.imagenes.mapValue.fields.otras.arrayValue
+                    .values,
               },
               fechaInicio: doc._fieldsProto.fechaInicio.stringValue,
               fechaFin: doc._fieldsProto.fechaFin.stringValue,
@@ -92,3 +102,37 @@ export const RegistrarEvento = async (req, res, next) => {
     res.status(400).json(response);
   }
 };
+
+export const EliminarEvento = async (req, res, next) => {
+  let response = {};
+  try {
+    const evento = db.collection("eventos").doc(req.body.id);
+    const resultado = await evento.update({
+      estado: "inactivo",
+    });
+
+    response.message = "Evento desactivado";
+    res.status(200).json(response);
+  } catch (error) {
+    console.log("Se produjo una excepcion al procesar la peticion:", error);
+    response.message = "Ocurrió un error al procesar la petición";
+    res.status(400).json(response);
+  }
+};
+
+export const ModificarEvento = async (req, res, next) => {
+    let response = {};
+    try {
+      const evento = db.collection("eventos").doc(req.body.id);
+      const resultado = await evento.update({
+        ...req.body.cambios
+      });
+  
+      response.message = "Evento actualizado";
+      res.status(200).json(response);
+    } catch (error) {
+      console.log("Se produjo una excepcion al procesar la peticion:", error);
+      response.message = "Ocurrió un error al procesar la petición";
+      res.status(400).json(response);
+    }
+  };
