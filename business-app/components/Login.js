@@ -1,4 +1,4 @@
-import React, { useEffect, useState, setState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
-import { WEB_CLIENT_ID, ANDROID_CLIENT_ID } from "@env";
+import { WEB_CLIENT_ID } from "@env";
 import {
   GoogleSignin,
   statusCodes,
@@ -26,7 +26,7 @@ import {
   getReactNativePersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const screenHeight = Dimensions.get("window").height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
@@ -37,31 +37,12 @@ const iconMargin = 0.01 * screenHeight;
 
 function Login({ navigation }) {
   const auth = getAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+    persistence: getReactNativePersistence(AsyncStorage),
   });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userInfo, setuserInfo] = useState();
-
-  // const navigation = useNavigation()
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        // navigation.navigate("Inicio")
-        signOut(auth)
-          .then(() => {
-            console.log("Cierre de sesión exitoso");
-          })
-          .catch((error) => {
-            console.log("Error al cerrar sesión");
-          });
-      }
-    });
-
-    return unsubscribe;
-  }, []);
 
   const handleProvider = async () => {
     try {
@@ -91,8 +72,6 @@ function Login({ navigation }) {
   };
 
   useEffect(() => {
-    // console.log("Configurando Google Services");
-    // console.log("WEB_CLIENT_ID:", WEB_CLIENT_ID);
     GoogleSignin.configure({
       scopes: ["email", "https://www.googleapis.com/auth/drive.readonly"],
       webClientId: WEB_CLIENT_ID,
@@ -104,27 +83,34 @@ function Login({ navigation }) {
     if (userInfo !== undefined) {
       //   console.log("Info de sesión:", userInfo);
       Alert.alert("Inicio de sesión", "Inicio de sesión con Google Exitoso", [
-        { text: "OK", onPress: () => navigation.navigate("Inicio") },
+        { text: "OK", onPress: () => navigation.navigate("PerfilUsuario") },
       ]);
     }
   }, [userInfo]);
 
   const handleSignUp = () => {
-    console.log("Creando Cuenta");
+    // console.log("Creando Cuenta");
     navigation.navigate("CrearCuenta");
   };
 
   const handleLogin = () => {
-    console.log("Iniciando sesion");
+    // console.log("Iniciando sesion");
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Sesion iniciada:", user.email);
-        Alert.alert("Inicio de sesión", "Inicio de sesión con Credenciales Exitoso", [
-            { text: "OK", onPress: () => navigation.navigate("Inicio") },
-          ]);
+        const user = userCredentials.user.uid;
+        // console.log("Sesion iniciada:", userCredentials.user.uid);
+        setSession(user);
+        Alert.alert(
+          "Inicio de sesión",
+          "Inicio de sesión con Credenciales Exitoso",
+          [{ text: "OK", onPress: () => navigation.navigate("PerfilUsuario") }]
+        );
       })
       .catch((error) => alert(error.message));
+  };
+
+  const setSession = async (uid) => {
+    await AsyncStorage.setItem("uid", uid);
   };
 
   return (
