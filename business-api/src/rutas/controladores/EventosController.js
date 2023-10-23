@@ -175,7 +175,7 @@ export const InfoEvento = async (req, res, next) => {
             },
             fechaInicio: doc._fieldsProto.fechaInicio.stringValue,
             fechaFin: doc._fieldsProto.fechaFin.stringValue,
-            autor: doc._fieldsProto.autor.integerValue,
+            autor: doc._fieldsProto.autor.stringValue,
           };
 
           response.data = tempEvento;
