@@ -10,23 +10,17 @@ import {
   Image,
 } from "react-native";
 import { colores } from "../config/colores";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "../config/axios-config";
 
 const screenWidth = Dimensions.get("window").width;
 const iconSize = 0.9 * screenWidth;
-const iconSizeAuthor = 0.35 * screenWidth;
 const widthTextAuthor = 0.5 * screenWidth;
 
 const VerNoticias = ({ route, navigation }) => {
   const { idEvento } = route.params;
   const [evento, setEvento] = useState(null);
+  const [empresa, setEmpresa] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const IrAPerfilEmpresa = () => {
-    navigation.navigate("PerfilEmpresa");
-  };
 
   useEffect(() => {
     const obtenerInfoEvento = async () => {
@@ -48,10 +42,33 @@ const VerNoticias = ({ route, navigation }) => {
 
   useEffect(() => {
     if (evento !== null) {
-      //   console.log("Evento:", evento);
-      setIsLoading(false);
+      // console.log("Evento:", evento);
+      //   setIsLoading(false);
+
+      const obtenerInfoEmpresa = async () => {
+        axiosInstance
+          .post("/empresas/info", {
+            id: evento.autor,
+          })
+          .then(function (response) {
+            setEmpresa(response.data.data);
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          });
+      };
+
+      obtenerInfoEmpresa();
     }
   }, [evento]);
+
+  useEffect(() => {
+    if (evento !== null) {
+      //   console.log("Empresa:", empresa);
+      setIsLoading(false);
+    }
+  }, [empresa]);
 
   return (
     <ContenedorPrincipal
@@ -95,21 +112,25 @@ const VerNoticias = ({ route, navigation }) => {
               <View>
                 <Text style={styles.cabeceraMensajeAutor}>Autor</Text>
 
-                <Text style={styles.companyName}>Empresa #1</Text>
+                <Text style={styles.companyName}>{empresa.nombre}</Text>
 
                 <View style={styles.flex}>
                   <View style={styles.iconContainerAuthor}>
-                    <TouchableOpacity onPress={IrAPerfilEmpresa}>
-                      <FontAwesomeIcon
-                        icon={faImage}
-                        size={iconSizeAuthor}
-                        style={styles.imagenAuthor}
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("PerfilEmpresa", {
+                          idEmpresa: evento.autor,
+                        });
+                      }}
+                    >
+                      <Image
+                        source={{ uri: `${empresa.imagen.logo.stringValue}` }}
+                        style={styles.cardImage}
                       />
                     </TouchableOpacity>
                   </View>
                   <Text style={styles.letraDescriptionAuthor}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Duis at massa quis ante congue egestas.
+                    {empresa.descripcion}
                   </Text>
                 </View>
               </View>
@@ -193,6 +214,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    margin:10,
+    margin: 10,
   },
 });
