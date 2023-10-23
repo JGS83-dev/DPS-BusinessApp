@@ -45,7 +45,7 @@ const PerfilEmpresa = ({ route, navigation }) => {
 
   useEffect(() => {
     if (empresa !== null) {
-        // console.log("Empresa:", empresa);
+      // console.log("Empresa:", empresa);
       setIsLoading(false);
     }
   }, [empresa]);
@@ -65,45 +65,65 @@ const PerfilEmpresa = ({ route, navigation }) => {
               </View>
               <View style={styles.containerimg}>
                 <ScrollView horizontal={true}>
-
-                <View style={styles.iconContainer}>
+                  <View style={styles.iconContainer}>
                     <Image
                       source={{ uri: `${empresa.imagen.logo.stringValue}` }}
                       style={styles.cardImage}
                     />
                   </View>
                   {empresa.imagen.otras.arrayValue.values.map((img) => (
-                    <View style={styles.iconContainer} key={img.mapValue.fields.id.integerValue}>
+                    <View
+                      style={styles.iconContainer}
+                      key={img.mapValue.fields.id.integerValue}
+                    >
                       <Image
-                        source={{ uri: `${img.mapValue.fields.url.stringValue}` }}
+                        source={{
+                          uri: `${img.mapValue.fields.url.stringValue}`,
+                        }}
                         style={styles.cardImage}
                       />
                     </View>
                   ))}
-                 
                 </ScrollView>
               </View>
 
               <View style={styles.mensajeDetalle}>
                 <Text style={styles.letraInfo}>Detalles</Text>
               </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.letra}>
-                  Ubicación: 
-                </Text>
-                <Text style={styles.letra}>
-                  Descripción: {empresa.descripcion}
-                </Text>
-                <Text style={styles.letra}>
-                  Horario de atención: Lorem ipsum dolor sit amet
-                </Text>
-                <Text style={styles.letra}>
-                  Sucursales: Lorem ipsum dolor sit amet
-                </Text>
-                <Text style={styles.letra}>
-                  Telefono: Lorem ipsum dolor sit amet
-                </Text>
-              </View>
+              <ScrollView vertical={true}>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>
+                    Ubicación: {empresa.ubicacion}
+                    {`\n`}
+                  </Text>
+                  <Text style={styles.letra}>
+                    Descripción: {empresa.descripcion}
+                    {`\n`}
+                  </Text>
+                  <Text style={styles.letra}>
+                    Horario de atención:{" "}
+                    {empresa.horario.map(
+                      (hora) =>
+                        `\n * Inicio: ${hora.inicio.stringValue} Fin: ${hora.fin.stringValue}`
+                    )}
+                    {`\n`}
+                  </Text>
+                  <Text style={styles.letra}>
+                    Sucursales:{" "}
+                    {empresa.sucursales.map(
+                      (sucursal) => `\n - ${sucursal.nombre.stringValue}`
+                    )}
+                    {`\n`}
+                  </Text>
+                  <Text style={styles.letra}>
+                    Telefono:{" "}
+                    {empresa.telefono.map(
+                      (telefono) => `\n * ${telefono.telefono.stringValue}`
+                    )}
+                    {`\n`}
+                  </Text>
+                </View>
+              </ScrollView>
             </>
           )}
         </>
