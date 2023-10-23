@@ -11,25 +11,64 @@ import {
 } from "react-native";
 import { colores } from "../config/colores";
 import axiosInstance from "../config/axios-config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  getAuth,
+  signOut,
+  getReactNativePersistence
+} from "firebase/auth";
+import RNRestart from 'react-native-restart';
+import { app } from "../config/firebase/FirebaseConfig";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const iconSize = 0.5 * screenWidth;
-const iconMargin = 0.05 * screenHeight;
 const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
-  const IrALogin = () => {
-    navigation.navigate("Login");
+
+  const CapturarAccion = async () => {
+      if (uid !== null) {
+        const auth = getAuth(app, {
+          persistence: getReactNativePersistence(AsyncStorage),
+        });
+        signOut(auth).then(() => {
+          LimpiarAlmacenamiento();
+        }).catch((error) => {
+          console.log('Error al cerrar sesión:',error);
+        });
+      }else{
+        navigation.navigate("Login");
+      }
   };
+
+  const LimpiarAlmacenamiento = async()=>{
+    // console.log('Limpiando sesion');
+    await AsyncStorage.clear();
+    RNRestart.restart();
+  }
 
   const IrACrearCuenta = () => {
     navigation.navigate("CrearCuenta");
   };
 
+  const [uid, setUid] = useState(null);
   const [eventos, setEventos] = useState(null);
   const [empresas, setEmpresas] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const ValidarSesion = async () => {
+      const uidSesion = await AsyncStorage.getItem("uid");
+      // console.log(uidSesion);
+      if (uidSesion !== null) {
+        setUid(uidSesion);
+      }
+    };
+
+    ValidarSesion();
+  },[]);
+
 
   useEffect(() => {
     const obtenerEventos = async () => {
@@ -155,11 +194,16 @@ const Inicio = ({ navigation }) => {
             </View>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={IrACrearCuenta} style={styles.button}>
+
+            {uid !== null ? (
+                ''
+              ) : (
+                <TouchableOpacity onPress={IrACrearCuenta} style={styles.button}>
                 <Text style={styles.buttonText}>CrearCuenta</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={IrALogin} style={styles.button}>
-                <Text style={styles.buttonText}>Iniciar Sesión</Text>
+              )}
+              <TouchableOpacity onPress={CapturarAccion} style={styles.button}>
+                <Text style={styles.buttonText}>{uid !== null ? `Cerrar Sesión` : `Iniciar Sesión`}</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>

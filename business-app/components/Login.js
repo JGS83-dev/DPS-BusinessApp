@@ -80,6 +80,17 @@ function Login({ navigation }) {
   }, []);
 
   useEffect(() => {
+    const ValidarSesion = async () => {
+      const uid = await AsyncStorage.getItem("uid");
+      if (uid !== null) {
+        navigation.navigate("PerfilUsuario");
+      }
+    };
+
+    ValidarSesion();
+  },[]);
+
+  useEffect(() => {
     if (userInfo !== undefined) {
       //   console.log("Info de sesión:", userInfo);
       Alert.alert("Inicio de sesión", "Inicio de sesión con Google Exitoso", [
