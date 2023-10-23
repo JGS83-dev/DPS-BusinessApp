@@ -10,8 +10,7 @@ import {
   Image,
 } from "react-native";
 import { colores } from "../config/colores";
-import { URL_BASE } from "@env";
-import axios from "axios";
+import axiosInstance from "../config/axios-config";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -32,14 +31,9 @@ const Inicio = ({ navigation }) => {
   const [empresas, setEmpresas] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const instance = axios.create({
-    baseURL: URL_BASE,
-    timeout: 1000,
-  });
-
   useEffect(() => {
     const obtenerEventos = async () => {
-      instance
+      axiosInstance
         .get("/eventos")
         .then(function (response) {
           // handle success
@@ -57,7 +51,7 @@ const Inicio = ({ navigation }) => {
 
   useEffect(() => {
     const obtenerEmpresas = async () => {
-      instance
+      axiosInstance
         .get("/empresas")
         .then(function (response) {
           // handle success
