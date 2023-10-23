@@ -78,29 +78,25 @@ export const InfoCuenta = async (req, res, next) => {
   try {
     const usuario = db.collection("usuarios");
     const snapshot = usuario
-      .where("auth", "==", req.body.auth)
+      .doc(req.body.auth)
       .get()
-      .then((result) => {
-        if (result.empty) {
+      .then((doc) => {
+        if (doc.empty) {
           response.data = [];
           response.message = "No se econtro al usuario";
           res.status(400).json(response);
         } else {
-          let data = [];
-          result.forEach((doc) => {
             // console.log('Resultado',doc);
             let tempUsuario = {
               id: doc.id,
               estado: doc._fieldsProto.estado.stringValue,
-              auth: doc._fieldsProto.auth.stringValue,
               correo: doc._fieldsProto.correo.stringValue,
               imagen: doc._fieldsProto.imagen.stringValue,
               nombre: doc._fieldsProto.nombre.stringValue,
               apellido: doc._fieldsProto.apellido.stringValue,
             };
-            data.push(tempUsuario);
-          });
-          response.data = data;
+
+          response.data = tempUsuario;
           response.message = "Usuario activo";
           res.status(200).json(response);
         }
