@@ -8,7 +8,7 @@ export const CrearCuenta = async (req, res, next) => {
   try {
     const dataBody = req.body;
     if (dataBody === undefined) {
-      response.message = "Información del evento requerida";
+      response.message = "Información de la cuenta requerida";
       res.status(400).json(response);
     }
     const usuarios = db
