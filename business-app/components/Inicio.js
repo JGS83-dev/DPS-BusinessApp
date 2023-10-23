@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-evenly",
     flexDirection: "column",
+    width:iconSize*1.25
   },
   iconContainer: {
     marginRight: iconMargin,
