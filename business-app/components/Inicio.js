@@ -218,12 +218,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: iconSize * 1.25,
   },
-  iconContainer: {
-    marginRight: iconMargin,
-    marginTop: iconMargin,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   tituloNoticia: {
     color: colores.letra,
     fontWeight: "bold",
