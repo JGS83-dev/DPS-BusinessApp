@@ -9,8 +9,6 @@ import {
   Image,
 } from "react-native";
 import { colores } from "../config/colores";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "../config/axios-config";
 
 const screenHeight = Dimensions.get("window").height;
