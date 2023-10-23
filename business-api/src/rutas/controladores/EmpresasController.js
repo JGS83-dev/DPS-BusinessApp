@@ -112,6 +112,7 @@ export const InfoEmpresas = async (req, res, next) => {
               listaSucursales.push(ele.mapValue.fields);
             });
             let tempEmpresa = {
+              id: doc.id,
               estado: doc._fieldsProto.estado.stringValue,
               nombre: doc._fieldsProto.nombre.stringValue,
               descripcion: doc._fieldsProto.descripcion.stringValue,
