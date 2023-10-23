@@ -11,10 +11,10 @@ export const CrearCuenta = async (req, res, next) => {
       response.message = "Información del evento requerida";
       res.status(400).json(response);
     }
-    const usuarios = db.collection("usuarios");
-    const idCuenta = usuarios
-      .add({
-        auth: dataBody.auth,
+    const usuarios = db
+      .collection("usuarios")
+      .doc(dataBody.auth)
+      .set({
         nombre: dataBody.nombre,
         apellido: dataBody.apellido,
         correo: dataBody.correo,
@@ -22,10 +22,7 @@ export const CrearCuenta = async (req, res, next) => {
         imagen: dataBody.imagen,
       })
       .then((result) => {
-        // console.log(result);
-        response.data = {};
-        response.message = "Cuenta creada exitosamente";
-        res.status(200).json(response);
+        console.log("Cuenta creada:", req.body.auth);
       })
       .catch((e) => {
         console.log("Se produjo una excepcion al procesar la información:", e);
@@ -67,7 +64,7 @@ export const ActualizarCuenta = async (req, res, next) => {
       ...req.body.cambio,
     });
 
-    response.message = "Usuario desactivado";
+    response.message = "Usuario actualizado";
     res.status(200).json(response);
   } catch (error) {
     console.log("Se produjo una excepcion al procesar la peticion:", error);
