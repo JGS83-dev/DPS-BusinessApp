@@ -1,7 +1,10 @@
 import express from 'express';
-import { CrearCuenta } from './controladores/CuentasController.js';
+import { ActualizarCuenta, CrearCuenta, DesactivarCuenta, InfoCuenta } from './controladores/CuentasController.js';
 const router = express.Router();
 
-router.get('/', CrearCuenta);
+router.post('/crear', CrearCuenta);
+router.post('/actualizar', ActualizarCuenta);
+router.post('/eliminar', DesactivarCuenta);
+router.post('/info', InfoCuenta);
 
 export default router;
