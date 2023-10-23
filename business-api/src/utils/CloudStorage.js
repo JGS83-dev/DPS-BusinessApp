@@ -1,6 +1,6 @@
 import firebase from "../config/FirebaseConfig.js";
-import { getStorage } from "firebase/storage";
-const storage = getStorage(firebase, process.env.bucket_name);
+// import { getStorage } from "firebase/storage";
+// const storage = getStorage(firebase, process.env.bucket_name);
 
 export const UploadFileToBucket = (
   file,

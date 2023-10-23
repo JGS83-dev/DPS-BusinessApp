@@ -3,6 +3,6 @@ import { ObtenerEventos,RegistrarEvento } from './controladores/EventosControlle
 const router = express.Router();
 
 router.get('/', ObtenerEventos);
-router.get('/agregar', RegistrarEvento);
+router.post('/agregar', RegistrarEvento);
 
 export default router;
