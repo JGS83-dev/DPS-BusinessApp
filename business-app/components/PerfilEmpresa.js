@@ -12,7 +12,8 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.18 * screenHeight;
 const iconMargin = 0.05 * screenHeight;
 
-const PerfilEmpresa = ({ navigation }) => {
+const PerfilEmpresa = ({route, navigation }) => {
+  const { idEmpresa } = route.params;
   return (
     <ContenedorPrincipal
       titulo="Perfil Empresa"
@@ -20,7 +21,7 @@ const PerfilEmpresa = ({ navigation }) => {
       contenido={
         <>
           <View style={styles.cabeceraMensaje}>
-            <Text style={styles.letraTitulo}>Nombre Empresa</Text>
+            <Text style={styles.letraTitulo}>{idEmpresa}</Text>
           </View>
           <View style={styles.containerimg}>
             <ScrollView horizontal={true}>
