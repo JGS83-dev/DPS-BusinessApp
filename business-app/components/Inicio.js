@@ -10,27 +10,16 @@ import {
   Image,
 } from "react-native";
 import { colores } from "../config/colores";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { URL_BASE } from "@env";
 import axios from "axios";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const iconSize = 0.5 * screenWidth;
-const iconEmpresaImg = 0.35 * screenWidth;
 const iconMargin = 0.05 * screenHeight;
 const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
-  const IrANoticias = () => {
-    navigation.navigate("VerNoticias");
-  };
-
-  const IrAPerfilEmpresa = () => {
-    navigation.navigate("PerfilEmpresa");
-  };
-
   const IrALogin = () => {
     navigation.navigate("Login");
   };
@@ -110,7 +99,7 @@ const Inicio = ({ navigation }) => {
                 <ScrollView horizontal={true}>
                   {eventos.map((item) => (
                     // Contenedor Padre
-                    <View style={styles.contenedorNoticia}>
+                    <View style={styles.contenedorNoticia} key={item.id}>
                       {/* Contenedor Izquierda */}
                       <View style={styles.verticalInfo}>
                         <Text style={styles.tituloNoticia}>{item.titulo}</Text>
@@ -126,7 +115,11 @@ const Inicio = ({ navigation }) => {
                         />
                         <TouchableOpacity
                           style={styles.button}
-                          onPress={IrANoticias}
+                          onPress={() => {
+                            navigation.navigate("VerNoticias", {
+                              idEvento: item.id,
+                            });
+                          }}
                         >
                           <Text style={styles.masInfo}>Más info.</Text>
                         </TouchableOpacity>
@@ -138,24 +131,30 @@ const Inicio = ({ navigation }) => {
             </View>
 
             <View>
-              <Text style={styles.cabeceraDescubre}>Descubre Cerca de</Text>
+              <Text style={styles.cabeceraDescubre}>Descubre Cerca de ti</Text>
 
               {isLoading ? (
                 <Text>Cargando...</Text>
               ) : (
                 <ScrollView horizontal={true}>
                   {empresas.map((item) => (
-                      <View style={styles.flex}>
+                    <View style={styles.flex} key={item.id}>
                       <Text style={styles.nombreEmpresa}>{item.nombre}</Text>
-                        <View style={styles.contenedorImgEmpresa}>
-                          <TouchableOpacity onPress={IrAPerfilEmpresa}>
+                      <View style={styles.contenedorImgEmpresa}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate("PerfilEmpresa", {
+                              idEmpresa: item.id,
+                            });
+                          }}
+                        >
                           <Image
-                          source={{ uri: `${item.imagen.logo.stringValue}` }}
-                          style={styles.cardImage}
-                        />
-                          </TouchableOpacity>
-                        </View>
+                            source={{ uri: `${item.imagen.logo.stringValue}` }}
+                            style={styles.cardImage}
+                          />
+                        </TouchableOpacity>
                       </View>
+                    </View>
                   ))}
                 </ScrollView>
               )}
@@ -223,7 +222,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-evenly",
     flexDirection: "column",
-    width:iconSize*1.25
+    width: iconSize * 1.25,
   },
   iconContainer: {
     marginRight: iconMargin,
