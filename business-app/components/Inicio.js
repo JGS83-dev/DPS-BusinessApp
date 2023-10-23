@@ -40,6 +40,7 @@ const Inicio = ({ navigation }) => {
   };
 
   const [eventos, setEventos] = useState(null);
+  const [empresas, setEmpresas] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const instance = axios.create({
@@ -66,11 +67,30 @@ const Inicio = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (eventos !== null) {
+    const obtenerEmpresas = async () => {
+      instance
+        .get("/empresas")
+        .then(function (response) {
+          // handle success
+          // console.log(response.data);
+          setEmpresas(response.data.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
+
+    obtenerEmpresas();
+  }, []);
+
+  useEffect(() => {
+    if (eventos !== null && empresas !== null) {
       // console.log('Eventos:',eventos);
+      // console.log("Empresas:", empresas);
       setIsLoading(false);
     }
-  }, [eventos]);
+  }, [eventos, empresas]);
 
   return (
     <ContenedorPrincipal
@@ -100,7 +120,10 @@ const Inicio = ({ navigation }) => {
                       </View>
                       {/* Contenedor Derecho */}
                       <View style={styles.verticalInfoDerecha}>
-                      <Image source={{ uri:`${item.imagenes.principal}` }} style={styles.cardImage} />
+                        <Image
+                          source={{ uri: `${item.imagenes.principal}` }}
+                          style={styles.cardImage}
+                        />
                         <TouchableOpacity
                           style={styles.button}
                           onPress={IrANoticias}
@@ -117,18 +140,25 @@ const Inicio = ({ navigation }) => {
             <View>
               <Text style={styles.cabeceraDescubre}>Descubre Cerca de</Text>
 
-              <Text style={styles.nombreEmpresa}>Empresa #1</Text>
-              <View style={styles.flex}>
-                <View style={styles.contenedorImgEmpresa}>
-                  <TouchableOpacity onPress={IrAPerfilEmpresa}>
-                    <FontAwesomeIcon
-                      icon={faImage}
-                      size={iconEmpresaImg}
-                      style={styles.imagenEmpresa}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              {isLoading ? (
+                <Text>Cargando...</Text>
+              ) : (
+                <ScrollView horizontal={true}>
+                  {empresas.map((item) => (
+                      <View style={styles.flex}>
+                      <Text style={styles.nombreEmpresa}>{item.nombre}</Text>
+                        <View style={styles.contenedorImgEmpresa}>
+                          <TouchableOpacity onPress={IrAPerfilEmpresa}>
+                          <Image
+                          source={{ uri: `${item.imagen.logo.stringValue}` }}
+                          style={styles.cardImage}
+                        />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                  ))}
+                </ScrollView>
+              )}
             </View>
 
             <View style={styles.buttonContainer}>
@@ -192,7 +222,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     justifyContent: "space-evenly",
-    flexDirection: "row",
+    flexDirection: "column",
   },
   iconContainer: {
     marginRight: iconMargin,
@@ -213,7 +243,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: "#000000",
     flexDirection: "row",
-    width:iconSize * 1.75
+    width: iconSize * 1.75,
   },
   contenidoNoticia: {
     color: colores.letra,
@@ -255,7 +285,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: iconSize * 0.75,
-    height: iconSize *0.75,
+    height: iconSize * 0.75,
     borderRadius: 10,
   },
 });
