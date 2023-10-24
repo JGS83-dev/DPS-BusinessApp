@@ -90,6 +90,7 @@ export const InfoCuenta = async (req, res, next) => {
             doc.forEach(doc=>{
               let tempUsuario = {
                 id: doc.id,
+                auth: doc._fieldsProto.auth.stringValue,
                 estado: doc._fieldsProto.estado.stringValue,
                 correo: doc._fieldsProto.correo.stringValue,
                 imagen: doc._fieldsProto.imagen.stringValue,
