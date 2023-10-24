@@ -24,6 +24,11 @@ const iconSize = 0.5 * screenWidth;
 const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
+  const [uid, setUid] = useState(null);
+  const [eventos, setEventos] = useState(null);
+  const [empresas, setEmpresas] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const CapturarAccion = async () => {
     try {
       if (uid !== null) {
@@ -57,11 +62,6 @@ const Inicio = ({ navigation }) => {
   const IrACrearCuenta = () => {
     navigation.navigate("CrearCuenta");
   };
-
-  const [uid, setUid] = useState(null);
-  const [eventos, setEventos] = useState(null);
-  const [empresas, setEmpresas] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     GoogleSignin.configure({
