@@ -12,7 +12,7 @@ import {
 import { colores } from "../config/colores";
 import axiosInstance from "../config/axios-config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAuth, signOut, getReactNativePersistence } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import RNRestart from "react-native-restart";
 import { app } from "../config/firebase/FirebaseConfig";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -39,10 +39,8 @@ const Inicio = ({ navigation }) => {
           await GoogleSignin.revokeAccess();
           LimpiarAlmacenamiento();
         } else {
-          const auth = getAuth(app, {
-            persistence: getReactNativePersistence(AsyncStorage),
-          });
-          signOut(auth).then();
+          const auth = getAuth(app);
+          signOut(auth);
         }
       } else {
         navigation.navigate("Login");

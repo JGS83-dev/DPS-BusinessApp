@@ -23,7 +23,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import {
   getAuth,
-  getReactNativePersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -36,9 +35,7 @@ const iconSize = 0.2 * screenHeight;
 const iconMargin = 0.01 * screenHeight;
 
 function Login({ navigation }) {
-  const auth = getAuth(app, {
-    persistence: getReactNativePersistence(AsyncStorage),
-  });
+  const auth = getAuth(app);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
