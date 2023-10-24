@@ -50,7 +50,6 @@ const Inicio = ({ navigation }) => {
   };
 
   const LimpiarAlmacenamiento = async () => {
-    // console.log('Limpiando sesion');
     await AsyncStorage.clear();
     RNRestart.restart();
   };
@@ -86,12 +85,9 @@ const Inicio = ({ navigation }) => {
       axiosInstance
         .get("/eventos")
         .then(function (response) {
-          // handle success
-          // console.log(response.data);
           setEventos(response.data.data);
         })
         .catch(function (error) {
-          // handle error
           console.log(error);
         });
     };
@@ -102,12 +98,9 @@ const Inicio = ({ navigation }) => {
       axiosInstance
         .get("/empresas")
         .then(function (response) {
-          // handle success
-          // console.log(response.data);
           setEmpresas(response.data.data);
         })
         .catch(function (error) {
-          // handle error
           console.log(error);
         });
     };
@@ -117,8 +110,6 @@ const Inicio = ({ navigation }) => {
 
   useEffect(() => {
     if (eventos !== null && empresas !== null) {
-      // console.log('Eventos:',eventos);
-      // console.log("Empresas:", empresas);
       setIsLoading(false);
     }
   }, [eventos, empresas]);
@@ -129,15 +120,15 @@ const Inicio = ({ navigation }) => {
       navigation={navigation}
       contenido={
         <>
-          <ScrollView vertical={true}>
-            <View style={styles.cabeceraMensaje}>
-              <Text style={styles.letraTitulo}>Novedades</Text>
-            </View>
+          {isLoading ? (
+            <Text style={styles.letra}>Cargando...</Text>
+          ) : (
+            <ScrollView vertical={true}>
+              <View style={styles.cabeceraMensaje}>
+                <Text style={styles.letraTitulo}>Novedades</Text>
+              </View>
 
-            <View style={styles.containerimg}>
-              {isLoading ? (
-                <Text style={styles.letra}>Cargando...</Text>
-              ) : (
+              <View style={styles.containerimg}>
                 <ScrollView horizontal={true}>
                   {eventos.map((item) => (
                     // Contenedor Padre
@@ -169,15 +160,12 @@ const Inicio = ({ navigation }) => {
                     </View>
                   ))}
                 </ScrollView>
-              )}
-            </View>
+              </View>
 
-            <View>
-              <Text style={styles.cabeceraDescubre}>Descubre Cerca de ti</Text>
-
-              {isLoading ? (
-                <Text style={styles.letra}>Cargando...</Text>
-              ) : (
+              <View>
+                <Text style={styles.cabeceraDescubre}>
+                  Descubre Cerca de ti
+                </Text>
                 <ScrollView horizontal={true}>
                   {empresas.map((item) => (
                     <View style={styles.flex} key={item.id}>
@@ -199,27 +187,29 @@ const Inicio = ({ navigation }) => {
                     </View>
                   ))}
                 </ScrollView>
-              )}
-            </View>
-
-            <View style={styles.buttonContainer}>
-              {uid !== null ? (
-                ""
-              ) : (
+              </View>
+              <View style={styles.buttonContainer}>
+                {uid !== null ? (
+                  ""
+                ) : (
+                  <TouchableOpacity
+                    onPress={IrACrearCuenta}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>CrearCuenta</Text>
+                  </TouchableOpacity>
+                )}
                 <TouchableOpacity
-                  onPress={IrACrearCuenta}
+                  onPress={CapturarAccion}
                   style={styles.button}
                 >
-                  <Text style={styles.buttonText}>CrearCuenta</Text>
+                  <Text style={styles.buttonText}>
+                    {uid !== null ? `Cerrar Sesión` : `Iniciar Sesión`}
+                  </Text>
                 </TouchableOpacity>
-              )}
-              <TouchableOpacity onPress={CapturarAccion} style={styles.button}>
-                <Text style={styles.buttonText}>
-                  {uid !== null ? `Cerrar Sesión` : `Iniciar Sesión`}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
+              </View>
+            </ScrollView>
+          )}
         </>
       }
     ></ContenedorPrincipal>
