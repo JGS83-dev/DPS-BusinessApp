@@ -78,7 +78,7 @@ export const InfoCuenta = async (req, res, next) => {
   try {
     const usuario = db.collection("usuarios");
     const snapshot = usuario
-      .doc(req.body.auth)
+      .where("correo","==",req.body.auth)
       .get()
       .then((doc) => {
         if (doc.empty) {
@@ -87,18 +87,19 @@ export const InfoCuenta = async (req, res, next) => {
           res.status(400).json(response);
         } else {
             // console.log('Resultado',doc);
-            let tempUsuario = {
-              id: doc.id,
-              estado: doc._fieldsProto.estado.stringValue,
-              correo: doc._fieldsProto.correo.stringValue,
-              imagen: doc._fieldsProto.imagen.stringValue,
-              nombre: doc._fieldsProto.nombre.stringValue,
-              apellido: doc._fieldsProto.apellido.stringValue,
-            };
-
-          response.data = tempUsuario;
-          response.message = "Usuario activo";
-          res.status(200).json(response);
+            doc.forEach(doc=>{
+              let tempUsuario = {
+                id: doc.id,
+                estado: doc._fieldsProto.estado.stringValue,
+                correo: doc._fieldsProto.correo.stringValue,
+                imagen: doc._fieldsProto.imagen.stringValue,
+                nombre: doc._fieldsProto.nombre.stringValue,
+                apellido: doc._fieldsProto.apellido.stringValue,
+              };
+              response.data = tempUsuario;
+              response.message = "Usuario activo";
+              res.status(200).json(response);
+            })
         }
       })
       .catch((e) => {
