@@ -46,17 +46,11 @@ function Login({ navigation }) {
 
   const handleProvider = async () => {
     try {
-      if (userInfo !== undefined) {
-        console.log("Cerrando sesion");
-        await GoogleSignin.signOut();
-        setuserInfo(undefined);
-        console.log("Revocando acceso");
-        await GoogleSignin.revokeAccess();
-      }
-      console.log("Iniciando sesion con Google");
       await GoogleSignin.hasPlayServices();
       const data = await GoogleSignin.signIn();
-      console.log("Asignando sesion");
+
+      SetCorreo(data.user.email,'google');
+
       setuserInfo(data);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -108,9 +102,8 @@ function Login({ navigation }) {
     // console.log("Iniciando sesion");
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user.uid;
-        // console.log("Sesion iniciada:", userCredentials.user.uid);
-        setSession(user);
+
+        SetCorreo(userCredentials.user.email,'firebase');
         Alert.alert(
           "Inicio de sesión",
           "Inicio de sesión con Credenciales Exitoso",
@@ -120,8 +113,9 @@ function Login({ navigation }) {
       .catch((error) => alert(error.message));
   };
 
-  const setSession = async (uid) => {
-    await AsyncStorage.setItem("uid", uid);
+  const SetCorreo = async (correo,tipo) => {
+    await AsyncStorage.setItem("correo", correo);
+    await AsyncStorage.setItem("tipo", tipo);
   };
 
   return (

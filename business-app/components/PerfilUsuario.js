@@ -25,11 +25,11 @@ const PerfilUsuario = ({ navigation }) => {
 
   useEffect(() => {
     const obtenerInfoUsuario = async () => {
-      const uid = await AsyncStorage.getItem("uid");
+      const correo = await AsyncStorage.getItem("correo");
       // console.log('UID:',uid);
       axiosInstance
         .post("/cuenta/info", {
-          auth: uid,
+          auth: correo,
         })
         .then(function (response) {
           setUsuario(response.data.data);
@@ -43,9 +43,14 @@ const PerfilUsuario = ({ navigation }) => {
     obtenerInfoUsuario();
   }, []);
 
+  const SetSession = async (uid) => {
+    await AsyncStorage.setItem("uid", uid);
+  }
+
   useEffect(() => {
     if (usuario !== null) {
       // console.log("Usuario:", usuario);
+      SetSession(usuario.auth);
       setIsLoading(false);
     }
   }, [usuario]);

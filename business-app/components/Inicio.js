@@ -12,13 +12,11 @@ import {
 import { colores } from "../config/colores";
 import axiosInstance from "../config/axios-config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  getAuth,
-  signOut,
-  getReactNativePersistence
-} from "firebase/auth";
-import RNRestart from 'react-native-restart';
+import { getAuth, signOut, getReactNativePersistence } from "firebase/auth";
+import RNRestart from "react-native-restart";
 import { app } from "../config/firebase/FirebaseConfig";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { WEB_CLIENT_ID } from "@env";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -26,27 +24,36 @@ const iconSize = 0.5 * screenWidth;
 const tituloSize = 0.035 * screenHeight;
 
 const Inicio = ({ navigation }) => {
-
   const CapturarAccion = async () => {
+    try {
       if (uid !== null) {
-        const auth = getAuth(app, {
-          persistence: getReactNativePersistence(AsyncStorage),
-        });
-        signOut(auth).then(() => {
+        const tipo = await AsyncStorage.getItem("tipo");
+
+        if (tipo === "google") {
+          await GoogleSignin.signOut();
+          await GoogleSignin.revokeAccess();
           LimpiarAlmacenamiento();
-        }).catch((error) => {
-          console.log('Error al cerrar sesión:',error);
-        });
-      }else{
+        } else {
+          const auth = getAuth(app, {
+            persistence: getReactNativePersistence(AsyncStorage),
+          });
+          signOut(auth).then();
+        }
+      } else {
         navigation.navigate("Login");
       }
+    } catch (error) {
+      console.log("Error al cerrar sesión:", error);
+    } finally {
+      LimpiarAlmacenamiento();
+    }
   };
 
-  const LimpiarAlmacenamiento = async()=>{
+  const LimpiarAlmacenamiento = async () => {
     // console.log('Limpiando sesion');
     await AsyncStorage.clear();
     RNRestart.restart();
-  }
+  };
 
   const IrACrearCuenta = () => {
     navigation.navigate("CrearCuenta");
@@ -58,6 +65,13 @@ const Inicio = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ["email", "https://www.googleapis.com/auth/drive.readonly"],
+      webClientId: WEB_CLIENT_ID,
+      offlineAccess: true,
+    });
+
+    setIsLoading(true);
     const ValidarSesion = async () => {
       const uidSesion = await AsyncStorage.getItem("uid");
       // console.log(uidSesion);
@@ -67,10 +81,7 @@ const Inicio = ({ navigation }) => {
     };
 
     ValidarSesion();
-  },[]);
 
-
-  useEffect(() => {
     const obtenerEventos = async () => {
       axiosInstance
         .get("/eventos")
@@ -86,9 +97,7 @@ const Inicio = ({ navigation }) => {
     };
 
     obtenerEventos();
-  }, []);
 
-  useEffect(() => {
     const obtenerEmpresas = async () => {
       axiosInstance
         .get("/empresas")
@@ -194,16 +203,20 @@ const Inicio = ({ navigation }) => {
             </View>
 
             <View style={styles.buttonContainer}>
-
-            {uid !== null ? (
-                ''
+              {uid !== null ? (
+                ""
               ) : (
-                <TouchableOpacity onPress={IrACrearCuenta} style={styles.button}>
-                <Text style={styles.buttonText}>CrearCuenta</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={IrACrearCuenta}
+                  style={styles.button}
+                >
+                  <Text style={styles.buttonText}>CrearCuenta</Text>
+                </TouchableOpacity>
               )}
               <TouchableOpacity onPress={CapturarAccion} style={styles.button}>
-                <Text style={styles.buttonText}>{uid !== null ? `Cerrar Sesión` : `Iniciar Sesión`}</Text>
+                <Text style={styles.buttonText}>
+                  {uid !== null ? `Cerrar Sesión` : `Iniciar Sesión`}
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
