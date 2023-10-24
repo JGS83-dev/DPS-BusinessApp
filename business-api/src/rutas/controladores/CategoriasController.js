@@ -24,6 +24,7 @@ export const ObtenerCategorias = async (req, res, next) => {
               titulo: doc._fieldsProto.titulo.stringValue,
               descripcion: doc._fieldsProto.descripcion.stringValue,
               estado: doc._fieldsProto.estado.stringValue,
+              icono: doc._fieldsProto.icono.stringValue,
             };
             data.push(tempCategoria);
           });
@@ -58,6 +59,7 @@ export const RegistrarCategoria = async (req, res, next) => {
       .add({
         titulo: dataBody.titulo,
         descripcion: dataBody.descripcion,
+        icono: dataBody.icono,
         estado: 'activo'
       })
       .then((result) => {
