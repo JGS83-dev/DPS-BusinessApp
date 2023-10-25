@@ -11,6 +11,7 @@ import VerNoticias from './components/VerNoticias';
 import PerfilEmpresa from './components/PerfilEmpresa';
 import PerfilUsuario from './components/PerfilUsuario';
 import Categorias from './components/Categorias';
+import CategoriasEmpresas from './components/CategoriasEmpresas';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ function App() {
         <Stack.Screen options={{ headerShown: false }} name="VerNoticias" component={VerNoticias} />
         <Stack.Screen options={{ headerShown: false }} name="PerfilEmpresa" component={PerfilEmpresa} />
         <Stack.Screen options={{ headerShown: false }} name="PerfilUsuario" component={PerfilUsuario} />
+        <Stack.Screen options={{ headerShown: false }} name="CategoriasEmpresas" component={CategoriasEmpresas} />
       </Stack.Navigator>
     </NavigationContainer>
   );

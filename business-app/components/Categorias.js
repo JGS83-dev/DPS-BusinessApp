@@ -74,7 +74,14 @@ const Categorias = ({ navigation }) => {
                 <View style={styles.containerimg}>
                   <ScrollView vertical={true}>
                     {mitadIzquierda.map((categoria) => (
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate("CategoriasEmpresas", {
+                            idCategoria: categoria.id,
+                            titulo: categoria.titulo,
+                          });
+                        }}
+                      >
                         <View
                           style={styles.iconContainerIzq}
                           key={categoria.titulo}
@@ -96,7 +103,14 @@ const Categorias = ({ navigation }) => {
                 <View style={styles.containerimg}>
                   <ScrollView vertical={true}>
                     {mitadDerecha.map((categoria) => (
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate("CategoriasEmpresas", {
+                            idCategoria: categoria.id,
+                            titulo: categoria.titulo,
+                          });
+                        }}
+                      >
                         <View
                           style={styles.iconContainerDere}
                           key={categoria.titulo}
@@ -128,8 +142,8 @@ export default Categorias;
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent:'flex-start'
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   containerimg: {
     marginLeft: "8%",
