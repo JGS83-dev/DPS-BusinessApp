@@ -7,7 +7,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import { colores } from "../config/colores";
 import axiosInstance from "../config/axios-config";
@@ -19,23 +19,29 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.1 * screenHeight;
 const iconMargin = 0.02 * screenHeight;
 
-const CategoriasEmpresas = ({ route,navigation }) => {
-  const { idCategoria,titulo } = route.params;
+const CategoriasEmpresas = ({ route, navigation }) => {
+  const { idCategoria, titulo } = route.params;
   const [data, setData] = useState(null);
   const [mitadIzquierda, setMitadIzquierda] = useState(null);
   const [mitadDerecha, setMitadDerecha] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [vacio, setVacio] = useState(false);
 
   useEffect(() => {
     const ObtenerCategoriasEmpresas = async () => {
       axiosInstance
-      .get("/empresas")
+        .post("/empresas/categoria", {
+          categoria: idCategoria,
+        })
         .then(function (response) {
+          // console.log(response.data.data);
           setData(response.data.data);
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          console.log("Fallo peticion:", error);
+          setData([]);
+          setVacio(true);
         });
     };
 
@@ -44,10 +50,10 @@ const CategoriasEmpresas = ({ route,navigation }) => {
 
   useEffect(() => {
     if (data !== null) {
-      
       let halfwayThrough = Math.floor(data.length / 2);
       setMitadDerecha(data.slice(0, halfwayThrough));
       setMitadIzquierda(data.slice(halfwayThrough, data.length));
+      // console.log("data:", data.length);
     }
   }, [data]);
 
@@ -57,7 +63,7 @@ const CategoriasEmpresas = ({ route,navigation }) => {
       // console.log('Izquierda:',mitadIzquierda);
       setIsLoading(false);
     }
-  }, [mitadDerecha, mitadIzquierda]);
+  }, [mitadDerecha, mitadIzquierda,vacio]);
 
   return (
     <ContenedorPrincipal
@@ -73,61 +79,63 @@ const CategoriasEmpresas = ({ route,navigation }) => {
                 <Text style={styles.letraTitulo}> </Text>
               </View>
 
-              <View style={styles.contenedor}>
-                <View style={styles.containerimg} key="izquierda">
-                  <ScrollView vertical={true}>
-                  {mitadIzquierda.map((item) => (
-                      <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate("PerfilEmpresa", {
-                          idEmpresa: item.id,
-                        });
-                      }}>
-                        <View
-                          style={styles.iconContainerIzq}
-                          key={item.id}
+              {vacio ? (
+                <Text style={styles.letra}>
+                  No hay empresas activas en esta categoria
+                </Text>
+              ) : (
+                <View style={styles.contenedor}>
+                  <View style={styles.containerimg} key="izquierda">
+                    <ScrollView vertical={true}>
+                      {mitadIzquierda.map((item) => (
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate("PerfilEmpresa", {
+                              idEmpresa: item.id,
+                            });
+                          }}
                         >
-                          <Text style={styles.letra}>
-                            {item.nombre}
-                          </Text>
+                          <View style={styles.iconContainerIzq} key={item.id}>
+                            <Text style={styles.letra}>{item.nombre}</Text>
 
-                          <Image
-                          source={{ uri: `${item.imagen.logo.stringValue}` }}
-                          style={styles.cardImage}
-                        />
-                        </View>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
+                            <Image
+                              source={{
+                                uri: `${item.imagen.logo.stringValue}`,
+                              }}
+                              style={styles.cardImage}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
 
-                <View style={styles.containerimg} key="derecha">
-                  <ScrollView vertical={true}>
-                    {mitadDerecha.map((item) => (
-                      <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate("PerfilEmpresa", {
-                          idEmpresa: item.id,
-                        });
-                      }}>
-                        <View
-                          style={styles.iconContainerDere}
-                          key={item.id}
+                  <View style={styles.containerimg} key="derecha">
+                    <ScrollView vertical={true}>
+                      {mitadDerecha.map((item) => (
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate("PerfilEmpresa", {
+                              idEmpresa: item.id,
+                            });
+                          }}
                         >
-                          <Text style={styles.letra}>
-                            {item.nombre}
-                          </Text>
+                          <View style={styles.iconContainerDere} key={item.id}>
+                            <Text style={styles.letra}>{item.nombre}</Text>
 
-                          <Image
-                          source={{ uri: `${item.imagen.logo.stringValue}` }}
-                          style={styles.cardImage}
-                        />
-                        </View>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
+                            <Image
+                              source={{
+                                uri: `${item.imagen.logo.stringValue}`,
+                              }}
+                              style={styles.cardImage}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
                 </View>
-              </View>
+              )}
             </>
           )}
         </>
@@ -141,8 +149,8 @@ export default CategoriasEmpresas;
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent:'flex-start'
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   containerimg: {
     marginBottom: "3%",
@@ -169,8 +177,8 @@ const styles = StyleSheet.create({
   letra: {
     fontSize: 16,
     color: colores.letra,
-    marginBottom:10,
-    fontWeight:'bold',
+    marginBottom: 10,
+    fontWeight: "bold",
   },
   cabeceraMensaje: {
     backgroundColor: colores.fondoBarras,
