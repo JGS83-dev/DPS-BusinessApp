@@ -23,12 +23,14 @@ const ContenedorPrincipal = (props) => {
   const { titulo, contenido, navigation } = props;
 
   const IrAInicio = () => {
-    // console.log("Moviendo a Inicio...")
     navigation.navigate("Inicio");
   };
 
+  const IrACategorias = () => {
+    navigation.navigate("Categorias");
+  };
+
   const IrAIniciarSesion = () => {
-    // console.log("Moviendo a Iniciar Sesion...")
     navigation.navigate("Login");
   };
   return (
@@ -43,7 +45,7 @@ const ContenedorPrincipal = (props) => {
           <TouchableOpacity onPress={IrAInicio}>
             <MaterialCommunityIcons name="home" size={iconSize} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={IrACategorias}>
             <MaterialCommunityIcons name="magnify" size={iconSize} />
           </TouchableOpacity>
           <TouchableOpacity onPress={IrAIniciarSesion}>
