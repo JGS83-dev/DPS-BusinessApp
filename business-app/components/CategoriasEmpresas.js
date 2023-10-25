@@ -77,7 +77,12 @@ const CategoriasEmpresas = ({ route,navigation }) => {
                 <View style={styles.containerimg} key="izquierda">
                   <ScrollView vertical={true}>
                   {mitadIzquierda.map((item) => (
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("PerfilEmpresa", {
+                          idEmpresa: item.id,
+                        });
+                      }}>
                         <View
                           style={styles.iconContainerIzq}
                           key={item.id}
@@ -99,7 +104,12 @@ const CategoriasEmpresas = ({ route,navigation }) => {
                 <View style={styles.containerimg} key="derecha">
                   <ScrollView vertical={true}>
                     {mitadDerecha.map((item) => (
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("PerfilEmpresa", {
+                          idEmpresa: item.id,
+                        });
+                      }}>
                         <View
                           style={styles.iconContainerDere}
                           key={item.id}
