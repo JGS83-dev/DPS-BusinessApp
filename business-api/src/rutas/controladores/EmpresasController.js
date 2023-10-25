@@ -202,3 +202,129 @@ export const InfoEmpresa = async (req, res, next) => {
     res.status(400).json(response);
   }
 };
+
+export const InfoEmpresasCategoria = async (req, res, next) => {
+  let response = {};
+  try {
+    const empresas = db.collection("empresas");
+    const snapshot = empresas
+      .where("estado", "==", "activo")
+      .where("categoria", "==", req.body.categoria)
+      .get()
+      .then((result) => {
+        if (result.empty) {
+          response.data = [];
+          response.message = "No se econtron empresas activas para esa categoria";
+          res.status(400).json(response);
+        } else {
+          let data = [];
+          result.forEach((doc) => {
+            let listaHorario = [];
+            doc._fieldsProto.horario.arrayValue.values.map((ele) => {
+              listaHorario.push(ele.mapValue.fields);
+            });
+            let listaTelefono = [];
+            doc._fieldsProto.telefono.arrayValue.values.map((ele) => {
+              listaTelefono.push(ele.mapValue.fields);
+            });
+            let listaSucursales = [];
+            doc._fieldsProto.sucursales.arrayValue.values.map((ele) => {
+              listaSucursales.push(ele.mapValue.fields);
+            });
+            let tempEmpresa = {
+              id: doc.id,
+              estado: doc._fieldsProto.estado.stringValue,
+              nombre: doc._fieldsProto.nombre.stringValue,
+              descripcion: doc._fieldsProto.descripcion.stringValue,
+              imagen: doc._fieldsProto.imagen.mapValue.fields,
+              ubicacion: doc._fieldsProto.ubicacion.stringValue,
+              sucursales: listaSucursales,
+              horario: listaHorario,
+              telefono: listaTelefono,
+              fechaFundacion: doc._fieldsProto.fechaFundacion.stringValue,
+              fechaRegistro: doc._fieldsProto.fechaRegistro.stringValue,
+              categoria: doc._fieldsProto.categoria.stringValue,
+              correo: doc._fieldsProto.correo.stringValue,
+            };
+            data.push(tempEmpresa);
+          });
+          response.data = data;
+          response.message = "Empresas activas";
+          res.status(200).json(response);
+        }
+      })
+      .catch((e) => {
+        console.log("Se produjo una excepcion al procesar la información:", e);
+        response.message = "Ocurrió un error al procesar la información";
+        res.status(400).json(response);
+      });
+  } catch (error) {
+    console.log("Se produjo una excepcion al procesar la peticion:", error);
+    response.message = "Ocurrió un error al procesar la petición";
+    res.status(400).json(response);
+  }
+};
+
+
+export const InfoEmpresasCategoriaFiltro = async (req, res, next) => {
+  let response = {};
+  try {
+    const empresas = db.collection("empresas");
+    const snapshot = empresas
+      .where("estado", "==", "activo")
+      .where("categoria", "==", req.body.categoria)
+      .where("nombre", "==", req.body.nombre)
+      .get()
+      .then((result) => {
+        if (result.empty) {
+          response.data = [];
+          response.message = "No se econtron empresas activas para esa categoria";
+          res.status(400).json(response);
+        } else {
+          let data = [];
+          result.forEach((doc) => {
+            let listaHorario = [];
+            doc._fieldsProto.horario.arrayValue.values.map((ele) => {
+              listaHorario.push(ele.mapValue.fields);
+            });
+            let listaTelefono = [];
+            doc._fieldsProto.telefono.arrayValue.values.map((ele) => {
+              listaTelefono.push(ele.mapValue.fields);
+            });
+            let listaSucursales = [];
+            doc._fieldsProto.sucursales.arrayValue.values.map((ele) => {
+              listaSucursales.push(ele.mapValue.fields);
+            });
+            let tempEmpresa = {
+              id: doc.id,
+              estado: doc._fieldsProto.estado.stringValue,
+              nombre: doc._fieldsProto.nombre.stringValue,
+              descripcion: doc._fieldsProto.descripcion.stringValue,
+              imagen: doc._fieldsProto.imagen.mapValue.fields,
+              ubicacion: doc._fieldsProto.ubicacion.stringValue,
+              sucursales: listaSucursales,
+              horario: listaHorario,
+              telefono: listaTelefono,
+              fechaFundacion: doc._fieldsProto.fechaFundacion.stringValue,
+              fechaRegistro: doc._fieldsProto.fechaRegistro.stringValue,
+              categoria: doc._fieldsProto.categoria.stringValue,
+              correo: doc._fieldsProto.correo.stringValue,
+            };
+            data.push(tempEmpresa);
+          });
+          response.data = data;
+          response.message = "Empresas activas";
+          res.status(200).json(response);
+        }
+      })
+      .catch((e) => {
+        console.log("Se produjo una excepcion al procesar la información:", e);
+        response.message = "Ocurrió un error al procesar la información";
+        res.status(400).json(response);
+      });
+  } catch (error) {
+    console.log("Se produjo una excepcion al procesar la peticion:", error);
+    response.message = "Ocurrió un error al procesar la petición";
+    res.status(400).json(response);
+  }
+};
