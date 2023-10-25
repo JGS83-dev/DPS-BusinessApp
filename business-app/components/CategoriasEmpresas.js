@@ -53,8 +53,8 @@ const CategoriasEmpresas = ({ route,navigation }) => {
 
   useEffect(() => {
     if (mitadDerecha !== null && mitadIzquierda !== null) {
-      console.log('Derecha:',mitadDerecha);
-      console.log('Izquierda:',mitadIzquierda);
+      // console.log('Derecha:',mitadDerecha);
+      // console.log('Izquierda:',mitadIzquierda);
       setIsLoading(false);
     }
   }, [mitadDerecha, mitadIzquierda]);
@@ -74,7 +74,7 @@ const CategoriasEmpresas = ({ route,navigation }) => {
               </View>
 
               <View style={styles.contenedor}>
-                <View style={styles.containerimg}>
+                <View style={styles.containerimg} key="izquierda">
                   <ScrollView vertical={true}>
                   {mitadIzquierda.map((item) => (
                       <TouchableOpacity>
@@ -96,7 +96,7 @@ const CategoriasEmpresas = ({ route,navigation }) => {
                   </ScrollView>
                 </View>
 
-                <View style={styles.containerimg}>
+                <View style={styles.containerimg} key="derecha">
                   <ScrollView vertical={true}>
                     {mitadDerecha.map((item) => (
                       <TouchableOpacity>
@@ -141,14 +141,14 @@ const styles = StyleSheet.create({
     margin: iconMargin,
     justifyContent: "center",
     alignItems: "center",
-    width: "70%",
+    width: "75%",
     padding: 5,
   },
   iconContainerDere: {
     margin: iconMargin,
     justifyContent: "center",
     alignItems: "center",
-    width: "70%",
+    width: "50%",
     padding: 5,
   },
   letraTitulo: {
@@ -159,6 +159,8 @@ const styles = StyleSheet.create({
   letra: {
     fontSize: 16,
     color: colores.letra,
+    marginBottom:10,
+    fontWeight:'bold',
   },
   cabeceraMensaje: {
     backgroundColor: colores.fondoBarras,
