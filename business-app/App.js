@@ -10,6 +10,7 @@ import CrearCuenta from './components/CrearCuenta';
 import VerNoticias from './components/VerNoticias';
 import PerfilEmpresa from './components/PerfilEmpresa';
 import PerfilUsuario from './components/PerfilUsuario';
+import Categorias from './components/Categorias';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen options={{ headerShown: false }} name="Inicio" component={Inicio} />
+        <Stack.Screen options={{ headerShown: false }} name="Categorias" component={Categorias} />
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="CrearCuenta" component={CrearCuenta} />
         <Stack.Screen options={{ headerShown: false }} name="VerNoticias" component={VerNoticias} />
