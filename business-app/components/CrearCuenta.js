@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Button,
+  ScrollView,
 } from "react-native";
 
 import ContenedorPrincipal from "./ContenedorPrincipal";
@@ -30,6 +31,19 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState(null);
+
+
+  //TEST
+  const [error, setError] = useState("");
+  const handleChange = (text) => {
+    setName(text);
+    if (!text) {
+      setError("Este campo es obligatorio");
+    } else {
+      setError("");
+    }
+  };
+  //FIN DE TEST
   //Este es el codigo que sirve para mandar a llamar a una imagen localmente
   const onPress = () => {
     // Abre el selector de archivos
@@ -62,6 +76,7 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
         navigation={navigation}
         contenido={
           <>
+          <ScrollView >
             <View style={styles.cabeceraMensaje}>
               <Text style={styles.letraTitulo}>Complete los campos</Text>
             </View>
@@ -77,6 +92,7 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
                   borderRadius: 50,
                   padding: 0,
                   alignItems: "center",
+                  marginTop:10,
                 }}
                 onPress={onPress}
               >
@@ -94,14 +110,16 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
               </TouchableOpacity>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.letra}>Nombre:</Text>
-                <TextInput
-                  placeholder="Nombres"
-                  value={name}
-                  onChangeText={(text) => setName(text)}
-                  style={styles.input}
-                />
-              </View>
+      <Text style={styles.letra}>Nombre:</Text>
+      <TextInput
+        placeholder="Nombres"
+        value={name}
+        required
+        onChangeText={handleChange}
+        style={styles.input}
+      />
+      {error && <Text style={styles.error}>{error}</Text>}
+    </View>
               <View style={styles.inputContainer}>
                 <Text style={styles.letra}>Apellido:</Text>
                 <TextInput
@@ -145,6 +163,7 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
                 <FontAwesomeIcon icon={faAddressCard} size={iconSize * 0.4} />
               </View>
             </View>
+            </ScrollView>
           </>
         }
       ></ContenedorPrincipal>
@@ -205,6 +224,10 @@ const styles = StyleSheet.create({
     marginTop: cabeceraMensajeMargin,
     alignItems: "center",
     alignContent: "center",
+  },
+  error: {
+    color: "red",
+    fontSize: 16,
   },
 });
 export default CrearCuenta;
