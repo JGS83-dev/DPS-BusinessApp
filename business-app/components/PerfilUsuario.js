@@ -122,12 +122,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  iconWithBorder: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 5,
-  },
-
   letraInfo: {
     fontSize: 20,
     fontWeight: "bold",

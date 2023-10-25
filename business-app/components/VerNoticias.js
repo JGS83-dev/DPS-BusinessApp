@@ -185,11 +185,6 @@ const styles = StyleSheet.create({
   iconContainerAuthor: {
     padding: 10,
   },
-  iconWithBorder: {
-    borderWidth: 1,
-    borderColor: "red",
-    padding: 5,
-  },
   mensajeDetalle: {
     paddingLeft: 20,
     paddingRight: 20,
