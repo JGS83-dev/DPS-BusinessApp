@@ -7,7 +7,10 @@ export const CrearCuenta = async (req, res, next) => {
   let response = {};
   try {
     //Se sube el archivo
-    await SubirArchivo(req,res);
+    const file = req.file;
+    const buffer = Buffer.from(file.buffer);
+    const nombre = file.originalname;
+    const url = await UploadFileToBucket(buffer,nombre);
 
     const dataBody = req.body;
     if (dataBody === undefined) {
@@ -19,10 +22,11 @@ export const CrearCuenta = async (req, res, next) => {
       .doc(dataBody.auth)
       .set({
         nombre: dataBody.nombre,
+        auth: dataBody.auth,
         apellido: dataBody.apellido,
         correo: dataBody.correo,
         estado: "activo",
-        imagen: dataBody.imagen,
+        imagen: url,
       })
       .then((result) => {
         console.log("Cuenta creada:", req.body.auth);
@@ -35,18 +39,6 @@ export const CrearCuenta = async (req, res, next) => {
     // await UploadFileToBucket();
     response.message = "Cuenta creada exitosamente";
     res.status(200).json(response);
-  } catch (error) {
-    console.log("Se produjo una excepcion al procesar la peticion:", error);
-    response.message = "Ocurrió un error al procesar la petición";
-    res.status(400).json(response);
-  }
-};
-
-export const SubirArchivo = async (req, res) => {
-  let response = {};
-  try {
-    const file = req.file;
-    console.log(file)
   } catch (error) {
     console.log("Se produjo una excepcion al procesar la peticion:", error);
     response.message = "Ocurrió un error al procesar la petición";

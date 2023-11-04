@@ -196,20 +196,3 @@ export const InfoEvento = async (req, res, next) => {
     res.status(400).json(response);
   }
 };
-
-export const SubirArchivo = async (req, res, next) => {
-  let response = {};
-  try {
-    const file = req.file;
-    const buffer = Buffer.from(file.buffer);
-    const nombre = file.originalname;
-    const url = await UploadFileToBucket(buffer,nombre);
-    response.message = "Exitoso";
-    response.enlace = url;
-    res.status(200).json(response);
-  } catch (error) {
-    console.log("Se produjo una excepcion al procesar la peticion:", error);
-    response.message = "Ocurrió un error al procesar la petición";
-    res.status(400).json(response);
-  }
-};
