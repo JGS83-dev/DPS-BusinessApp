@@ -1,4 +1,5 @@
 // import { UploadFileToBucket } from "../../utils/CloudStorage.js";
+import { UploadFileToBucket } from "../../utils/CloudStorage.js";
 import firebase from "./../../config/FirebaseConfig.js";
 import { getFirestore } from "firebase-admin/firestore";
 const db = getFirestore(firebase);
@@ -199,10 +200,11 @@ export const InfoEvento = async (req, res, next) => {
 export const SubirArchivo = async (req, res, next) => {
   let response = {};
   try {
-    const files = req.files;
-    files.forEach((file) => {
-      console.log(file)
-    });
+    const file = req.file;
+    const buffer = Buffer.from(file.buffer);
+    const nombre = file.originalname;
+    UploadFileToBucket(buffer,nombre);
+
 
     response.message = "Exitoso";
     res.status(200).json(response);

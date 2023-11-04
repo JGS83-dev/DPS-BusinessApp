@@ -1,20 +1,20 @@
 import firebase from "../config/FirebaseConfig.js";
-// import { getStorage } from "firebase/storage";
-// const storage = getStorage(firebase, process.env.bucket_name);
+import { getStorage } from "firebase-admin/storage";
 
-export const UploadFileToBucket = (
-  file,
-  contents = "these are my file contents",
-  destFileName = "file.txt"
-) => {
-  async function uploadFromMemory() {
-    const storageRef = storage.ref();
-    storageRef.put(file).then((snapshot) => {
-      console.log("Uploaded a blob or file:", snapshot);
-    });
+const storage = getStorage(firebase).bucket();
 
-    console.log(`${data} uploaded to ${bucketName}.`);
+export const UploadFileToBucket = (data,nombre) => {
+  try {
+    async function uploadFromMemory() {
+      storage.file(nombre).save(data).then((snapshot) => {
+        console.log(snapshot);
+      });
+
+      // console.log(downloadURL);
+    }
+
+    uploadFromMemory().catch(console.error);
+  } catch (ex) {
+    console.log(ex);
   }
-
-  uploadFromMemory().catch(console.error);
 };

@@ -6,6 +6,9 @@ const db = getFirestore(firebase);
 export const CrearCuenta = async (req, res, next) => {
   let response = {};
   try {
+    //Se sube el archivo
+    await SubirArchivo(req,res);
+
     const dataBody = req.body;
     if (dataBody === undefined) {
       response.message = "Información de la cuenta requerida";
@@ -32,6 +35,18 @@ export const CrearCuenta = async (req, res, next) => {
     // await UploadFileToBucket();
     response.message = "Cuenta creada exitosamente";
     res.status(200).json(response);
+  } catch (error) {
+    console.log("Se produjo una excepcion al procesar la peticion:", error);
+    response.message = "Ocurrió un error al procesar la petición";
+    res.status(400).json(response);
+  }
+};
+
+export const SubirArchivo = async (req, res) => {
+  let response = {};
+  try {
+    const file = req.file;
+    console.log(file)
   } catch (error) {
     console.log("Se produjo una excepcion al procesar la peticion:", error);
     response.message = "Ocurrió un error al procesar la petición";
