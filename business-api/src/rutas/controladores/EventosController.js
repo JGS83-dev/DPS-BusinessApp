@@ -1,3 +1,4 @@
+// import { UploadFileToBucket } from "../../utils/CloudStorage.js";
 import firebase from "./../../config/FirebaseConfig.js";
 import { getFirestore } from "firebase-admin/firestore";
 const db = getFirestore(firebase);
@@ -188,6 +189,23 @@ export const InfoEvento = async (req, res, next) => {
         response.message = "Ocurrió un error al procesar la información";
         res.status(400).json(response);
       });
+  } catch (error) {
+    console.log("Se produjo una excepcion al procesar la peticion:", error);
+    response.message = "Ocurrió un error al procesar la petición";
+    res.status(400).json(response);
+  }
+};
+
+export const SubirArchivo = async (req, res, next) => {
+  let response = {};
+  try {
+    const files = req.files;
+    files.forEach((file) => {
+      console.log(file)
+    });
+
+    response.message = "Exitoso";
+    res.status(200).json(response);
   } catch (error) {
     console.log("Se produjo una excepcion al procesar la peticion:", error);
     response.message = "Ocurrió un error al procesar la petición";
