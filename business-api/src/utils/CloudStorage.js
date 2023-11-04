@@ -3,18 +3,28 @@ import { getStorage } from "firebase-admin/storage";
 
 const storage = getStorage(firebase).bucket();
 
-export const UploadFileToBucket = (data,nombre) => {
+export async function UploadFileToBucket(data, nombre) {
+  let signedUrl = null;
   try {
-    async function uploadFromMemory() {
-      storage.file(nombre).save(data).then((snapshot) => {
-        console.log(snapshot);
+    await storage
+      .file(nombre)
+      .save(data)
+      .then((snapshot) => {
+        console.log("Archivo subido...");
       });
-
-      // console.log(downloadURL);
-    }
-
-    uploadFromMemory().catch(console.error);
+    await storage
+      .file(nombre)
+      .getSignedUrl({
+        action: "read",
+        expires: "01-31-2024",
+      })
+      .then((signedUrls) => {
+        signedUrl = signedUrls[0];
+        // console.log(signedUrls);
+      });
   } catch (ex) {
     console.log(ex);
+  } finally {
+    return signedUrl;
   }
-};
+}

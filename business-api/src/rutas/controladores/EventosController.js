@@ -203,10 +203,9 @@ export const SubirArchivo = async (req, res, next) => {
     const file = req.file;
     const buffer = Buffer.from(file.buffer);
     const nombre = file.originalname;
-    UploadFileToBucket(buffer,nombre);
-
-
+    const url = await UploadFileToBucket(buffer,nombre);
     response.message = "Exitoso";
+    response.enlace = url;
     res.status(200).json(response);
   } catch (error) {
     console.log("Se produjo una excepcion al procesar la peticion:", error);
