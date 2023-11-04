@@ -24,14 +24,13 @@ const cabeceraMensajeMargin = 0.03 * screenHeight;
 const iconSize = 0.2 * screenHeight;
 const iconMargin = 0.01 * screenHeight;
 
-const CrearCuenta = ({ onSubmit,navigation }) => {
+const CrearCuenta = ({ onSubmit, navigation }) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState(null);
-
 
   //TEST
   const [error, setError] = useState("");
@@ -76,93 +75,93 @@ const CrearCuenta = ({ onSubmit,navigation }) => {
         navigation={navigation}
         contenido={
           <>
-          <ScrollView >
-            <View style={styles.cabeceraMensaje}>
-              <Text style={styles.letraTitulo}>Complete los campos</Text>
-            </View>
-            <View style={styles.container}>
-              {image && <Image source={image} style={styles.image} />}
-              <TouchableOpacity
-                style={{
-                  backgroundColor: colores.fondoBarras,
-                  color: "#ffffff",
-                  width: 90,
-                  height: 90,
-                  borderWidth: 1,
-                  borderRadius: 50,
-                  padding: 0,
-                  alignItems: "center",
-                  marginTop:10,
-                }}
-                onPress={onPress}
-              >
-                <Text
+            <ScrollView>
+              <View style={styles.cabeceraMensaje}>
+                <Text style={styles.letraTitulo}>Complete los campos</Text>
+              </View>
+              <View style={styles.container}>
+                {image && <Image source={image} style={styles.image} />}
+                <TouchableOpacity
                   style={{
-                    color: colores.letra,
-                    fontSize: 26,
-                    textAlign: "center",
-                    margin: 0,
-                    paddingTop: 25,
+                    backgroundColor: colores.fondoBarras,
+                    color: "#ffffff",
+                    width: 90,
+                    height: 90,
+                    borderWidth: 1,
+                    borderRadius: 50,
+                    padding: 0,
+                    alignItems: "center",
+                    marginTop: 10,
                   }}
+                  onPress={onPress}
                 >
-                  +
-                </Text>
-              </TouchableOpacity>
-
-              <View style={styles.inputContainer}>
-      <Text style={styles.letra}>Nombre:</Text>
-      <TextInput
-        placeholder="Nombres"
-        value={name}
-        required
-        onChangeText={handleChange}
-        style={styles.input}
-      />
-      {error && <Text style={styles.error}>{error}</Text>}
-    </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.letra}>Apellido:</Text>
-                <TextInput
-                  placeholder="Apellidos"
-                  value={lastName}
-                  onChangeText={(text) => setLastName(text)}
-                  style={styles.input}
-                />
-              </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.letra}>Correo Electronico:</Text>
-                <TextInput
-                  placeholder="ejemplo@test.com"
-                  value={email}
-                  onChangeText={(text) => setEmail(text)}
-                  style={styles.input}
-                />
-              </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.letra}>Contraseña:</Text>
-                <TextInput
-                  placeholder="Contraseña"
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                  style={styles.input}
-                />
-              </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.letra}>Confirmar Contraseña:</Text>
-                <TextInput
-                  placeholder="Confirmar"
-                  value={confirmPassword}
-                  onChangeText={(text) => setConfirmPassword(text)}
-                  style={styles.input}
-                />
-              </View>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>Crear cuenta</Text>
+                  <Text
+                    style={{
+                      color: colores.letra,
+                      fontSize: 26,
+                      textAlign: "center",
+                      margin: 0,
+                      paddingTop: 25,
+                    }}
+                  >
+                    +
+                  </Text>
                 </TouchableOpacity>
-                <FontAwesomeIcon icon={faAddressCard} size={iconSize * 0.4} />
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>Nombre:</Text>
+                  <TextInput
+                    placeholder="Nombres"
+                    value={name}
+                    required
+                    onChangeText={handleChange}
+                    style={styles.input}
+                  />
+                  {error && <Text style={styles.error}>{error}</Text>}
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>Apellido:</Text>
+                  <TextInput
+                    placeholder="Apellidos"
+                    value={lastName}
+                    onChangeText={(text) => setLastName(text)}
+                    style={styles.input}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>Correo Electronico:</Text>
+                  <TextInput
+                    placeholder="ejemplo@test.com"
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                    style={styles.input}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>Contraseña:</Text>
+                  <TextInput
+                    placeholder="Contraseña"
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                    style={styles.input}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.letra}>Confirmar Contraseña:</Text>
+                  <TextInput
+                    placeholder="Confirmar"
+                    value={confirmPassword}
+                    onChangeText={(text) => setConfirmPassword(text)}
+                    style={styles.input}
+                  />
+                </View>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Crear cuenta</Text>
+                  </TouchableOpacity>
+                  <FontAwesomeIcon icon={faAddressCard} size={iconSize * 0.4} />
+                </View>
               </View>
-            </View>
             </ScrollView>
           </>
         }
