@@ -194,7 +194,7 @@ const Inicio = ({ navigation }) => {
                     onPress={IrACrearCuenta}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>CrearCuenta</Text>
+                    <Text style={styles.buttonText}>Crear Cuenta</Text>
                   </TouchableOpacity>
                 )}
                 <TouchableOpacity

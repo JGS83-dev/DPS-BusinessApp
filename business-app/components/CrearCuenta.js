@@ -2,27 +2,21 @@ import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
-  KeyboardAvoidingView,
   View,
   TextInput,
   TouchableOpacity,
   Dimensions,
-  Button,
   ScrollView,
 } from "react-native";
-
+import * as ImagePicker from "react-native-image-picker";
 import ContenedorPrincipal from "./ContenedorPrincipal";
 import { colores } from "../config/colores";
 import { app } from "../config/firebase/FirebaseConfig";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faAddressCard, faImage } from "@fortawesome/free-solid-svg-icons";
 
 const screenHeight = Dimensions.get("window").height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
 const cabeceraMensajePadding = 0.01 * screenHeight;
 const cabeceraMensajeMargin = 0.03 * screenHeight;
-const iconSize = 0.2 * screenHeight;
-const iconMargin = 0.01 * screenHeight;
 
 const CrearCuenta = ({ onSubmit, navigation }) => {
   const [name, setName] = useState("");
@@ -30,9 +24,9 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [image, setImage] = useState(null);
+  const [imagen, setImagen] = useState(null);
+  const [nombreImage, setNombreImage] = useState(null);
 
-  //TEST
   const [error, setError] = useState("");
   const handleChange = (text) => {
     setName(text);
@@ -42,19 +36,7 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
       setError("");
     }
   };
-  //FIN DE TEST
-  //Este es el codigo que sirve para mandar a llamar a una imagen localmente
-  const onPress = () => {
-    // Abre el selector de archivos
-    navigation.navigate("ImagePicker", {
-      onImagePicked: (image) => {
-        // Actualiza el estado de la imagen
-        setImage(image);
-      },
-    });
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (password !== confirmPassword) {
       alert("Las contraseñas no coinciden");
       return;
@@ -68,6 +50,52 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
     });
   };
 
+  const chooseImage = async () => {
+    let options = {
+      maxWidth:300,
+      maxHeight:300,
+      includeBase64:true,
+      mediaType:'photo',
+      title: "Seleccione imagen de perfil",
+      customButtons: [
+        { name: "customOptionKey", title: "Seleccione una imagen" },
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: "images",
+      },
+    };
+    ImagePicker.launchImageLibrary(options, async (response) => {
+      // console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+        alert(response.customButton);
+      } else {
+        const data = response.assets[0];
+        setImagen(data.base64);
+        // console.log("Data:", data.base64);
+        setNombreImage(data.fileName);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (imagen !== null) {
+      console.log("Imagen cambiada");
+    }
+  }, [imagen]);
+
+  useEffect(() => {
+    if (nombreImage !== null) {
+      console.log("Nombre Imagen cambiado");
+    }
+  }, [nombreImage]);
+
   return (
     <>
       <ContenedorPrincipal
@@ -80,7 +108,6 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
                 <Text style={styles.letraTitulo}>Complete los campos</Text>
               </View>
               <View style={styles.container}>
-                {image && <Image source={image} style={styles.image} />}
                 <TouchableOpacity
                   style={{
                     backgroundColor: colores.fondoBarras,
@@ -93,7 +120,7 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
                     alignItems: "center",
                     marginTop: 10,
                   }}
-                  onPress={onPress}
+                  onPress={chooseImage}
                 >
                   <Text
                     style={{
@@ -156,10 +183,12 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
                   />
                 </View>
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.button}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={handleSubmit}
+                  >
                     <Text style={styles.buttonText}>Crear cuenta</Text>
                   </TouchableOpacity>
-                  <FontAwesomeIcon icon={faAddressCard} size={iconSize * 0.4} />
                 </View>
               </View>
             </ScrollView>
