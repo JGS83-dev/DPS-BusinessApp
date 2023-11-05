@@ -1,4 +1,4 @@
-// import { UploadFileToBucket } from "../../utils/CloudStorage.js";
+import { UploadFileToBucket } from "../../utils/CloudStorage.js";
 import firebase from "./../../config/FirebaseConfig.js";
 import { getFirestore } from "firebase-admin/firestore";
 const db = getFirestore(firebase);
@@ -7,9 +7,9 @@ export const CrearCuenta = async (req, res, next) => {
   let response = {};
   try {
     //Se sube el archivo
-    const file = req.file;
-    const buffer = Buffer.from(file.buffer);
-    const nombre = file.originalname;
+    const file = req.body.file;
+    const buffer = Buffer.from(file, 'base64')
+    const nombre = req.body.filename;
     const url = await UploadFileToBucket(buffer,nombre);
 
     const dataBody = req.body;
@@ -36,7 +36,7 @@ export const CrearCuenta = async (req, res, next) => {
         response.message = "Ocurrió un error al procesar la información";
         res.status(400).json(response);
       });
-    // await UploadFileToBucket();
+
     response.message = "Cuenta creada exitosamente";
     res.status(200).json(response);
   } catch (error) {
