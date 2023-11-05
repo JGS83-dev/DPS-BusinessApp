@@ -7,11 +7,15 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Alert
 } from "react-native";
 import * as ImagePicker from "react-native-image-picker";
 import ContenedorPrincipal from "./ContenedorPrincipal";
 import { colores } from "../config/colores";
 import { app } from "../config/firebase/FirebaseConfig";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import axiosInstance from "../config/axios-config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const screenHeight = Dimensions.get("window").height;
 const cabeceraMensajeHeight = 0.07 * screenHeight;
@@ -42,20 +46,47 @@ const CrearCuenta = ({ onSubmit, navigation }) => {
       return;
     }
 
-    onSubmit({
-      name,
-      lastName,
-      email,
-      password,
-    });
+    const auth = getAuth(app);
+    let uid = "";
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        // console.log('Info:',userCredentials.user.uid);
+        uid = userCredentials.user.uid;
+      })
+      .catch((error) => alert(error.message));
+
+    axiosInstance
+      .post("/cuenta/crear", {
+        auth: uid,
+        nombre: name,
+        apellido: lastName,
+        correo: email,
+        filename: nombreImage,
+        file: imagen,
+      })
+      .then(function (response) {
+        CrearSesion(email);
+        Alert.alert("Creacion de cuenta", response.data.message, [
+          { text: "OK", onPress: () => navigation.navigate("PerfilUsuario") },
+        ]);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  };
+
+  const CrearSesion = async (correo) => {
+    await AsyncStorage.setItem("correo", correo);
+    await AsyncStorage.setItem("tipo", "firebase");
   };
 
   const chooseImage = async () => {
     let options = {
-      maxWidth:300,
-      maxHeight:300,
-      includeBase64:true,
-      mediaType:'photo',
+      maxWidth: 300,
+      maxHeight: 300,
+      includeBase64: true,
+      mediaType: "photo",
       title: "Seleccione imagen de perfil",
       customButtons: [
         { name: "customOptionKey", title: "Seleccione una imagen" },

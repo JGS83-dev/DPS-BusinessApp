@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import RNRestart from "react-native-restart";
+
 const screenHeight = Dimensions.get("window").height;
 const iconSize = 0.08 * screenHeight;
 const headerHeight = 0.08 * screenHeight;
@@ -23,7 +25,8 @@ const ContenedorPrincipal = (props) => {
   const { titulo, contenido, navigation } = props;
 
   const IrAInicio = () => {
-    navigation.navigate("Inicio");
+    RNRestart.restart();
+    // navigation.navigate("Inicio");
   };
 
   const IrACategorias = () => {
